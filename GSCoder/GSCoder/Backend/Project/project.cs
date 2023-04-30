@@ -31,70 +31,58 @@ namespace GSCoder.Backend.Project
             }
         }
 
-        public static StackLayout open_project(GSCoder.MainForm form)
+        public static void OpenProject(MainForm form)
         {
-            //create the tabcontrol
-            var tabcontrol = create_tabcontrol(form);
-
-            var layout_right = new StackLayout()
-            {
-                Padding = 10,
-                Orientation = Orientation.Vertical,
-
-                Items =
-                {
-                    tabcontrol
-                }
-            };
-
-            return layout_right;
-        }
-
-        public static TabControl create_tabcontrol(GSCoder.MainForm form)
-        {
-            string project_path = "";
+            // Show the select folder dialog to let the user choose the project folder
             using (var dialog = new SelectFolderDialog())
             {
                 DialogResult result = dialog.ShowDialog(form);
-                if(result == DialogResult.Ok)
+                if (result == DialogResult.Ok)
                 {
-                    project_path = dialog.Directory.ToString();
+                    string projectPath = dialog.Directory.ToString();
+
+                    // Create a new TabControl
+                    var tabControl = new TabControl();
+
+                    // Get all the files in the project folder
+                    string[] files = Directory.GetFiles(projectPath);
+
+                    // Loop through the files and create a new tab page with a TextArea for each file
+                    foreach (string file in files)
+                    {
+                        // Read the content of the file
+                        string fileContent = File.ReadAllText(file);
+
+                        // Create a new TextArea with the file content
+                        var textArea = new TextArea()
+                        {
+                            Text = fileContent,
+                            AcceptsTab = true,
+                            Size = new Size(200, 100)
+                        };
+
+                        // Create a new TabPage with the TextArea as content
+                        var tabPage = new TabPage()
+                        {
+                            Text = Path.GetFileName(file),
+                            Content = new StackLayout
+                            {
+                                Orientation = Orientation.Vertical,
+                                Items =
+                                {
+                                    textArea
+                                }
+                            }
+                        };
+
+                        // Add the TabPage to the TabControl
+                        tabControl.Pages.Add(tabPage);
+                    }
+
+                    // Add the TabControl to the MainForm
+                    form.FindChild<StackLayout>("layout_right").Items.Add(tabControl);
                 }
             }
-
-            var tabcontrol = new TabControl();
-            if (project_path != "")
-            {
-                //get number of files in the project path
-                string[] files = Directory.GetFiles(project_path);
-
-                foreach (string file in files)
-                {
-                    var file_content = File.ReadAllText(file);
-                    var text_area = new TextArea()
-                    {
-                        Text = file_content,
-                        AcceptsTab = true,
-                        Size = new Size(200, 100)
-                    };
-
-                    var tabpage = new TabPage()
-                    {
-                        Text = file,
-                        Content = new StackLayout
-                        {
-                            Orientation = Orientation.Vertical,
-                            Items =
-                        {
-                            text_area
-                        }
-                        }
-                    };
-
-                    tabcontrol.Pages.Add(tabpage);
-                }
-            }
-            return tabcontrol;
         }
     }
 }

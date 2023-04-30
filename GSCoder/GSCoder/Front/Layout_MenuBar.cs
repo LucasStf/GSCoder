@@ -14,8 +14,7 @@ namespace GSCoder.Front
             var open_project = new Command { MenuText = "Open" };
             open_project.Executed += (sender, e) =>
             {
-                var layout_right = Backend.Project.project.open_project(form);
-                
+                Backend.Project.project.OpenProject(form);
             };
 
             var create_project = new Command { MenuText = "Create" };
