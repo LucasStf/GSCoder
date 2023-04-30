@@ -1,8 +1,10 @@
 ﻿using Directories.Net;
 using Eto.Drawing;
 using Eto.Forms;
+using GSCoder.Front;
 using System.IO;
 using System.Linq;
+using System.Net;
 
 namespace GSCoder.Backend.Project
 {
@@ -82,6 +84,34 @@ namespace GSCoder.Backend.Project
                     // Add the TabControl to the MainForm
                     form.FindChild<StackLayout>("layout_right").Items.Add(tabControl);
                 }
+            }
+        }
+
+        public static void CreateProject(Create_project form)
+        {
+            UserDirectories userDirectories = new UserDirectories();
+            var project_path = userDirectories.DocumentDir + "\\GSCoder\\Projects\\" + form.jeuComboBox.SelectedValue + "\\" + form.nomTextBox.Text;
+            //check if a project already exist
+            if(!Directory.Exists(project_path))
+            {
+                try
+                {
+                    //create the directory
+                    Directory.CreateDirectory(project_path);
+
+                    //create the main.gsc file
+                    File.Create(project_path + "\\main.gsc");
+                    
+                    form.Close();
+                }
+                catch 
+                {
+                    MessageBox.Show("Error while creating the project");
+                }
+            }
+            else
+            {
+                MessageBox.Show("A project already exist with this name !");
             }
         }
     }

@@ -10,6 +10,7 @@ namespace GSCoder.Front
     {
         public static MenuBar create_menu_bar(GSCoder.MainForm form)
         {
+            #region Project
             // create a few commands that can be used for the menu
             var open_project = new Command { MenuText = "Open" };
             open_project.Executed += (sender, e) =>
@@ -18,21 +19,31 @@ namespace GSCoder.Front
             };
 
             var create_project = new Command { MenuText = "Create" };
-            var save_project = new Command { MenuText = "Save" };
+            create_project.Executed += (sender, e) =>
+            {
+                var CreateProject = new Create_project();
+                CreateProject.Show();
+            };
 
+            var save_project = new Command { MenuText = "Save" };
+            #endregion
+
+            #region File
             var save_file = new Command { MenuText = "Save" };
             var rename_file = new Command { MenuText = "Rename" };
             var create_file = new Command { MenuText = "Create" };
             var remove_file = new Command { MenuText = "Remove" };
 
+            #endregion
+
             var quitCommand = new Command { MenuText = "Quit", Shortcut = Application.Instance.CommonModifier | Keys.Q };
             quitCommand.Executed += (sender, e) => Application.Instance.Quit();
 
             var aboutCommand = new Command { MenuText = "About..." };
-            //aboutCommand.Executed += (sender, e) => new AboutDialog().ShowDialog(this);
+            aboutCommand.Executed += (sender, e) => new AboutDialog().ShowDialog(form);
 
 
-
+            #region MenuBar
             // create menu
             var menu = new MenuBar
             {
@@ -45,6 +56,8 @@ namespace GSCoder.Front
                     new SubMenuItem { Text = "&About", Items = { aboutCommand } }
                 },
             };
+
+            #endregion
 
             return menu;
         }
