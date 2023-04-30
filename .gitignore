@@ -1,0 +1,12 @@
+.vs/
+/GSCoder/GSCoder/bin
+/GSCoder/GSCoder/obj
+
+/GSCoder/GSCoder.Gtk/bin
+/GSCoder/GSCoder.Gtk/obj
+
+/GSCoder/GSCoder.Mac/bin
+/GSCoder/GSCoder.Mac/obj
+
+/GSCoder/GSCoder.Wpf/bin
+/GSCoder/GSCoder.Wpf/obj
