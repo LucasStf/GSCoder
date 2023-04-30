@@ -4,15 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GSCoder.View
+namespace GSCoder.Front
 {
     internal class Layout_MenuBar : Form
     {
-        public static MenuBar create_menu_bar()
+        public static MenuBar create_menu_bar(GSCoder.MainForm form)
         {
             // create a few commands that can be used for the menu
             var open_project = new Command { MenuText = "Open" };
-            //open_project.Executed += (sender, e) => MessageBox.Show(this, "I was clicked!");
+            open_project.Executed += (sender, e) =>
+            {
+                var layout_right = Backend.Project.project.open_project(form);
+                
+            };
+
             var create_project = new Command { MenuText = "Create" };
             var save_project = new Command { MenuText = "Save" };
 

@@ -1,15 +1,10 @@
 ﻿using Eto.Forms;
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GSCoder.View
+namespace GSCoder.Front
 {
     class Layout_left : Form
     {
-        public static StackLayout create_layout_left()
+        public static StackLayout create_layout_left(GSCoder.MainForm form)
         {
             var layout = new StackLayout()
             {
