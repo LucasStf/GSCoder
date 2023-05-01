@@ -2,6 +2,7 @@
 using Eto.Drawing;
 using Eto.Forms;
 using GSCoder.Front;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -13,18 +14,21 @@ namespace GSCoder.Backend.Project
         public static void checkup()
         {
             UserDirectories userdirs = new UserDirectories();
-            var GSCoderFolder = userdirs.DocumentDir + "\\GSCoder";
-            var GSCoderFolderProjects = GSCoderFolder + "\\Projects";
+            var GSCoderFolder = userdirs.DocumentDir + "/GSCoder";
+            var GSCoderFolderProjects = GSCoderFolder + "/Projects";
+
 
             //check if the app directory exist
             try
             {
                 if (!Directory.Exists(GSCoderFolder))
                 {
+                    MessageBox.Show("GSCoder folder not found, creating it...");
                     Directory.CreateDirectory(GSCoderFolder);
                 }
                 if(!Directory.Exists(GSCoderFolderProjects))
                 {
+                    MessageBox.Show("GSCoder Projects folder not found, creating it...");
                     Directory.CreateDirectory(GSCoderFolderProjects);
                 }
             }
@@ -55,12 +59,12 @@ namespace GSCoder.Backend.Project
                         // Read the content of the file
                         string fileContent = File.ReadAllText(file);
 
-                        // Create a new TextArea with the file content
-                        var textArea = new TextArea()
+                        //create a rich texte area with the file content
+                        var richTextArea = new RichTextArea()
                         {
                             Text = fileContent,
+                            Size = new Size(200, 100),
                             AcceptsTab = true,
-                            Size = new Size(200, 100)
                         };
 
                         // Create a new TabPage with the TextArea as content
@@ -72,7 +76,7 @@ namespace GSCoder.Backend.Project
                                 Orientation = Orientation.Vertical,
                                 Items =
                                 {
-                                    textArea
+                                    richTextArea
                                 }
                             }
                         };
@@ -90,7 +94,7 @@ namespace GSCoder.Backend.Project
         public static void CreateProject(Create_project form)
         {
             UserDirectories userDirectories = new UserDirectories();
-            var project_path = userDirectories.DocumentDir + "\\GSCoder\\Projects\\" + form.jeuComboBox.SelectedValue + "\\" + form.nomTextBox.Text;
+            var project_path = userDirectories.DocumentDir + "/GSCoder/Projects/" + form.jeuComboBox.SelectedValue + "/" + form.nomTextBox.Text;
             //check if a project already exist
             if(!Directory.Exists(project_path))
             {
@@ -100,7 +104,7 @@ namespace GSCoder.Backend.Project
                     Directory.CreateDirectory(project_path);
 
                     //create the main.gsc file
-                    File.Create(project_path + "\\main.gsc");
+                    File.Create(project_path + "/main.gsc");
                     
                     form.Close();
                 }
