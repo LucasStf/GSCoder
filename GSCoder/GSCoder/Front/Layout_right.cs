@@ -14,12 +14,32 @@ namespace GSCoder.Front
             var layout_right = new StackLayout
             {
                 ID = "layout_right",
-                Padding = new Padding(10),
                 //Spacing = new Size(5, 5),
-                Orientation = Orientation.Vertical
             };
 
+            layout_right.VerticalContentAlignment = VerticalAlignment.Stretch;
+            layout_right.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+            //responsive layout
+
             return layout_right;
+        }
+
+        public static Panel CreateRightPanel()
+        {
+            // Créer un TabControl pour afficher les fichiers ouverts
+            var tabControl = new TabControl()
+            {
+                ID = "tabControl",
+            };
+
+            // Créer un panneau pour contenir le TabControl
+            var panel = new Panel
+            {
+                ID = "panel_right",
+                Content = tabControl
+            };
+
+            return panel;
         }
     }
 }

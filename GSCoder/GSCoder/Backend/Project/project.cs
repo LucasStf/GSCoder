@@ -59,34 +59,23 @@ namespace GSCoder.Backend.Project
                         // Read the content of the file
                         string fileContent = File.ReadAllText(file);
 
-                        //create a rich texte area with the file content
-                        var richTextArea = new RichTextArea()
-                        {
-                            Text = fileContent,
-                            Size = new Size(200, 100),
-                            AcceptsTab = true,
-                        };
-
                         // Create a new TabPage with the TextArea as content
                         var tabPage = new TabPage()
                         {
                             Text = Path.GetFileName(file),
-                            Content = new StackLayout
+                            Content = new RichTextArea
                             {
-                                Orientation = Orientation.Vertical,
-                                Items =
-                                {
-                                    richTextArea
-                                }
+                                Text = fileContent
                             }
                         };
 
                         // Add the TabPage to the TabControl
-                        tabControl.Pages.Add(tabPage);
+                        var rightPanel = MainForm.rightPanel;
+                        ((TabControl)rightPanel.Content).Pages.Add(tabPage);
                     }
 
                     // Add the TabControl to the MainForm
-                    form.FindChild<StackLayout>("layout_right").Items.Add(tabControl);
+                    //form.FindChild<StackLayout>("layout_right").Items.Add(tabControl);
                 }
             }
         }
