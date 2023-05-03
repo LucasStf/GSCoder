@@ -42,6 +42,10 @@ namespace GSCoder.Backend.Project
             // Show the select folder dialog to let the user choose the project folder
             using (var dialog = new SelectFolderDialog())
             {
+                //open the dialog in the documents dir
+                UserDirectories userdirs = new UserDirectories();
+                dialog.Directory = userdirs.DocumentDir + "/GSCoder/Projects";
+
                 DialogResult result = dialog.ShowDialog(form);
                 if (result == DialogResult.Ok)
                 {
@@ -53,26 +57,39 @@ namespace GSCoder.Backend.Project
                     // Get all the files in the project folder
                     string[] files = Directory.GetFiles(projectPath);
 
+                    var treeGridItemCollection = new TreeGridItemCollection();
+                    var leftPanel = MainForm.leftPanel;
+
                     // Loop through the files and create a new tab page with a TextArea for each file
                     foreach (string file in files)
                     {
-                        // Read the content of the file
-                        string fileContent = File.ReadAllText(file);
-
-                        // Create a new TabPage with the TextArea as content
-                        var tabPage = new TabPage()
+                        //if the file is a .gsc file
+                        if (Path.GetExtension(file) == ".gsc")
                         {
-                            Text = Path.GetFileName(file),
-                            Content = new RichTextArea
-                            {
-                                Text = fileContent
-                            }
-                        };
+                            // Read the content of the file
+                            string fileContent = File.ReadAllText(file);
 
-                        // Add the TabPage to the TabControl
-                        var rightPanel = MainForm.rightPanel;
-                        ((TabControl)rightPanel.Content).Pages.Add(tabPage);
+                            // Create a new TabPage with the TextArea as content
+                            var tabPage = new TabPage()
+                            {
+                                Text = Path.GetFileName(file),
+                                Content = new RichTextArea
+                                {
+                                    Text = fileContent
+                                }
+                            };
+
+                            //get the file name without the extension
+                            treeGridItemCollection.Add(new TreeGridItem { Values = new object[] { Path.GetFileNameWithoutExtension(file), Path.GetExtension(file) } });
+                            
+
+                            // Add the TabPage to the TabControl
+                            var rightPanel = MainForm.rightPanel;
+                            ((TabControl)rightPanel.Content).Pages.Add(tabPage);
+                        }
                     }
+
+                    ((TreeGridView)leftPanel.Content).DataStore = treeGridItemCollection;
 
                     // Add the TabControl to the MainForm
                     //form.FindChild<StackLayout>("layout_right").Items.Add(tabControl);

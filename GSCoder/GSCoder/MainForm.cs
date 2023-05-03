@@ -13,10 +13,10 @@ namespace GSCoder
             Backend.Project.project.checkup();
 
             Title = "GSCoder";
-            MinimumSize = new Size(570, 300);
+            MinimumSize = new Size(1300, 800);
 
 
-            leftPanel = Layout_left.create_layout_left(this);
+            leftPanel = Layout_left.CreateLeftPanel();
             rightPanel = Layout_right.CreateRightPanel();
 
             var splitter = new Splitter
