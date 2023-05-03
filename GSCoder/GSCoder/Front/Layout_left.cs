@@ -53,7 +53,8 @@ namespace GSCoder.Front
                         Text = "New File",
                         Command = new Command((sender2, e2) =>
                         {
-                            
+                            var createFile = new Create_File();
+                            createFile.Show();
                         })
                     });
 

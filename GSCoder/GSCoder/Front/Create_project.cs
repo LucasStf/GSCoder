@@ -14,7 +14,7 @@ namespace GSCoder.Front
 
         public Create_project()
         {
-            Title = "Nouveau projet";
+            Title = "New project";
 
             nomTextBox = new TextBox();
             jeuComboBox = new ComboBox()
@@ -26,7 +26,7 @@ namespace GSCoder.Front
                 SelectedIndex = 0,
             };
 
-            creerButton = new Button { Text = "Créer" };
+            creerButton = new Button { Text = "Create" };
 
             Content = new TableLayout
             {
@@ -34,8 +34,8 @@ namespace GSCoder.Front
                 Padding = new Padding(10),
                 Rows =
                 {
-                    new TableRow(new Label { Text = "Nom du projet : " }, nomTextBox),
-                    new TableRow(new Label { Text = "Jeu : " }, jeuComboBox),
+                    new TableRow(new Label { Text = "Project name : " }, nomTextBox),
+                    new TableRow(new Label { Text = "Game : " }, jeuComboBox),
                     new TableRow(null, creerButton),
                 }
             };

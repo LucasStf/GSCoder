@@ -50,7 +50,7 @@ namespace GSCoder.Backend.Project
                 DialogResult result = dialog.ShowDialog(form);
                 if (result == DialogResult.Ok)
                 {
-                    string projectPath = dialog.Directory.ToString();
+                    string projectPath = dialog.Directory;
 
                     var treeGridItemCollection = new TreeGridItemCollection();
 
@@ -94,6 +94,13 @@ namespace GSCoder.Backend.Project
                         }
                     }
 
+                    //get the last directory of the project path
+                    string projectName = projectPath.Split('/').Last();
+                    //get the game name in the project path
+                    string gameName = projectPath.Split('/')[projectPath.Split('/').Length - 2];
+
+                    project_infos project_Infos = new project_infos(projectName, gameName, projectPath);
+
                     ((TreeGridView)leftPanel.Content).DataStore = treeGridItemCollection;
 
                     // Add the TabControl to the MainForm
@@ -116,6 +123,8 @@ namespace GSCoder.Backend.Project
 
                     //create the main.gsc file
                     File.Create(project_path + "/main.gsc");
+
+                    project_infos project_Infos = new project_infos(form.nomTextBox.Text, form.jeuComboBox.SelectedValue.ToString(), project_path);
                     
                     form.Close();
                 }
