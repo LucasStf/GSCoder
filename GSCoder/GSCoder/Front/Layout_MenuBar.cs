@@ -3,6 +3,7 @@ using Eto.Forms;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GSCoder.Front
 {
@@ -13,9 +14,9 @@ namespace GSCoder.Front
             #region Project
             // create a few commands that can be used for the menu
             var open_project = new Command { MenuText = "Open" };
-            open_project.Executed += (sender, e) =>
+            open_project.Executed += async (sender, e) =>
             {
-                Backend.Project.project.OpenProject(form);
+                await Backend.Project.project.OpenProject(form);
             };
 
             var create_project = new Command { MenuText = "Create" };

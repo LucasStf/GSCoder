@@ -21,7 +21,7 @@ namespace GSCoder.Front
             return layout;
         }
 
-        public static Panel CreateLeftPanel()
+        public static Panel CreateLeftPanel(MainForm form)
         {
             var treeGridView = new TreeGridView()
             {
@@ -53,7 +53,7 @@ namespace GSCoder.Front
                         Text = "New File",
                         Command = new Command((sender2, e2) =>
                         {
-                            var createFile = new Create_File();
+                            var createFile = new Create_File(form);
                             createFile.Show();
                         })
                     });

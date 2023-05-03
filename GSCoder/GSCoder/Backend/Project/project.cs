@@ -52,8 +52,6 @@ namespace GSCoder.Backend.Project
                 {
                     string projectPath = dialog.Directory;
 
-                    var treeGridItemCollection = new TreeGridItemCollection();
-
                     var leftPanel = MainForm.leftPanel;
                     var rightPanel = MainForm.rightPanel;
 
@@ -75,22 +73,11 @@ namespace GSCoder.Backend.Project
                             // Read the content of the file
                             string fileContent = await File.ReadAllTextAsync(file);
 
-                            // Create a new TabPage with the TextArea as content
-                            var tabPage = new TabPage()
-                            {
-                                Text = Path.GetFileName(file),
-                                Content = new RichTextArea
-                                {
-                                    Text = fileContent
-                                }
-                            };
-
-                            //get the file name without the extension
-                            treeGridItemCollection.Add(new TreeGridItem { Values = new object[] { Path.GetFileNameWithoutExtension(file), Path.GetExtension(file) } });
-                            
+                            //Add the file to the treeview
+                            AddItemToTreeGrid(form, Path.GetFileNameWithoutExtension(file), Path.GetExtension(file), MainForm.treeGridItemCollection);
 
                             // Add the TabPage to the TabControl
-                            ((TabControl)rightPanel.Content).Pages.Add(tabPage);
+                            AddPageTabcontrol(form, Path.GetFileNameWithoutExtension(file), fileContent);
                         }
                     }
 
@@ -100,13 +87,36 @@ namespace GSCoder.Backend.Project
                     string gameName = projectPath.Split('/')[projectPath.Split('/').Length - 2];
 
                     project_infos project_Infos = new project_infos(projectName, gameName, projectPath);
-
-                    ((TreeGridView)leftPanel.Content).DataStore = treeGridItemCollection;
-
-                    // Add the TabControl to the MainForm
-                    //form.FindChild<StackLayout>("layout_right").Items.Add(tabControl);
                 }
             }
+        }
+
+        public static void AddPageTabcontrol(MainForm form, string file_name, string fileContent)
+        {
+            var rightPanel = MainForm.rightPanel;
+
+            // Create a new TabPage with the TextArea as content
+            var tabPage = new TabPage()
+            {
+                Text = Path.GetFileName(file_name),
+                Content = new RichTextArea
+                {
+                    Text = fileContent
+                }
+            };
+
+
+            ((TabControl)rightPanel.Content).Pages.Add(tabPage);
+        }
+
+        public static void AddItemToTreeGrid(MainForm form, string file_name, string file_extension, TreeGridItemCollection treeGridItemCollection)
+        {
+            var leftPanel = MainForm.leftPanel;
+
+            //get the file name without the extension
+            treeGridItemCollection.Add(new TreeGridItem { Values = new object[] { file_name, file_extension } });
+
+            ((TreeGridView)leftPanel.Content).DataStore = treeGridItemCollection;
         }
 
         public static void CreateProject(Create_project form)

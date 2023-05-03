@@ -8,6 +8,9 @@ namespace GSCoder
     {
         public static Panel rightPanel;
         public static Panel leftPanel;
+
+        public static TreeGridItemCollection treeGridItemCollection = new TreeGridItemCollection();
+
         public MainForm()
         {
             Backend.Project.project.checkup();
@@ -16,7 +19,7 @@ namespace GSCoder
             MinimumSize = new Size(1300, 800);
 
 
-            leftPanel = Layout_left.CreateLeftPanel();
+            leftPanel = Layout_left.CreateLeftPanel(this);
             rightPanel = Layout_right.CreateRightPanel();
 
             var splitter = new Splitter
