@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace GSCoder.Backend.Project
 {
@@ -37,7 +38,7 @@ namespace GSCoder.Backend.Project
             }
         }
 
-        public static void OpenProject(MainForm form)
+        public static async Task OpenProject(MainForm form)
         {
             // Show the select folder dialog to let the user choose the project folder
             using (var dialog = new SelectFolderDialog())
@@ -51,14 +52,19 @@ namespace GSCoder.Backend.Project
                 {
                     string projectPath = dialog.Directory.ToString();
 
+                    var treeGridItemCollection = new TreeGridItemCollection();
+
+                    var leftPanel = MainForm.leftPanel;
+                    var rightPanel = MainForm.rightPanel;
+
                     // Create a new TabControl
                     var tabControl = new TabControl();
+
+                    ((TabControl)rightPanel.Content).Pages.Clear();
 
                     // Get all the files in the project folder
                     string[] files = Directory.GetFiles(projectPath);
 
-                    var treeGridItemCollection = new TreeGridItemCollection();
-                    var leftPanel = MainForm.leftPanel;
 
                     // Loop through the files and create a new tab page with a TextArea for each file
                     foreach (string file in files)
@@ -67,7 +73,7 @@ namespace GSCoder.Backend.Project
                         if (Path.GetExtension(file) == ".gsc")
                         {
                             // Read the content of the file
-                            string fileContent = File.ReadAllText(file);
+                            string fileContent = await File.ReadAllTextAsync(file);
 
                             // Create a new TabPage with the TextArea as content
                             var tabPage = new TabPage()
@@ -84,7 +90,6 @@ namespace GSCoder.Backend.Project
                             
 
                             // Add the TabPage to the TabControl
-                            var rightPanel = MainForm.rightPanel;
                             ((TabControl)rightPanel.Content).Pages.Add(tabPage);
                         }
                     }
