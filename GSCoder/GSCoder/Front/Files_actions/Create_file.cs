@@ -17,7 +17,6 @@ namespace GSCoder.Front
             Title = "New file";
 
             FileName = new TextBox();
-            
 
             CreateButton = new Button { Text = "Create" };
 

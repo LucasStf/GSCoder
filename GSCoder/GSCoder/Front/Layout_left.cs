@@ -31,13 +31,15 @@ namespace GSCoder.Front
             treeGridView.Columns.Add(new GridColumn
             {
                 HeaderText = "File",
-                DataCell = new TextBoxCell(0)
+                DataCell = new TextBoxCell(0),
+                MinWidth = 100
             });
 
             treeGridView.Columns.Add(new GridColumn
             {
                 HeaderText = "Extension",
-                DataCell = new TextBoxCell(1)
+                DataCell = new TextBoxCell(1),
+                MinWidth = 100
             });
 
             //create an event when the user click an item in the treegridview

@@ -24,15 +24,26 @@ namespace GSCoder
 
             var splitter = new Splitter
             {
-                Position = 200,
+                Position = 50,
                 Panel1 = leftPanel,
                 Panel2 = rightPanel,
                 FixedPanel = SplitterFixedPanel.Panel1,
                 SplitterWidth = 5,
-                //SplitterPosition = 200
             };
 
-            Content = splitter;
+            var logPanel = CreateLogPanel.CreateLogArea();
+            var mainSplitter = new Splitter
+            {
+                Orientation = Orientation.Horizontal,
+                FixedPanel = SplitterFixedPanel.Panel1,
+                Panel1 = splitter,
+                Panel2 = logPanel,
+                SplitterWidth = 5,
+                Position = 200
+            };
+
+
+            Content = mainSplitter;
             
             // create menu
             Menu = Layout_MenuBar.create_menu_bar(this);
