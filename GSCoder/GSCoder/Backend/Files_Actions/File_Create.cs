@@ -13,8 +13,9 @@ namespace GSCoder.Backend
             var tabPage = new TabPage()
             {
                 Text = Path.GetFileName(file_name),
-                Content = new RichTextArea
+                Content = new CustomRichTextArea
                 {
+                    ID = "CustomRichTextArea",
                     Text = fileContent
                 }
             };
