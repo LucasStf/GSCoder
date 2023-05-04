@@ -85,8 +85,8 @@ namespace GSCoder.Front
                         Text = "Delete File",
                         Command = new Command((sender2, e2) =>
                         {
-                            //var deleteFile = new Delete_file(form);
-                            //deleteFile.Show();
+                            var deleteFile = new Delete_file(form);
+                            deleteFile.Show();
                         })
                     });
 

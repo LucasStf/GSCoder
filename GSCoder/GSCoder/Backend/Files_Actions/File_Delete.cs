@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using Eto.Forms;
 
 namespace GSCoder.Backend
 {
@@ -8,15 +10,11 @@ namespace GSCoder.Backend
         {
             var tabControl = MainForm.rightPanel.FindChild<Eto.Forms.TabControl>("tabControl");
             //get the tab page by his name
-            var tabPage = tabControl.Pages;
-
-            Eto.Forms.TabPage selectedTab = null;
-            foreach (var tab in tabPage)
+            var pages = new List<TabPage>(tabControl.Pages);
+            foreach (var tab in pages)
             {
                 if (tab.Text == file_name)
                 {
-                    selectedTab = tab;
-                    //rename the tab page
                     tabControl.Pages.Remove(tab);
                 }
             }
