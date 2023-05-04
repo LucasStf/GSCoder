@@ -1,9 +1,5 @@
 using Eto.Drawing;
 using Eto.Forms;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace GSCoder.Front
 {
@@ -36,9 +32,9 @@ namespace GSCoder.Front
                 //create the file
                 try
                 {
-                    File.Create(controllerProject.get_path() + "/" + FileName.Text + ".gsc");
-                    Backend.Project.project.AddPageTabcontrol(mainForm, FileName.Text, "//" + FileName.Text + " file !");
-                    Backend.Project.project.AddItemToTreeGrid(mainForm, FileName.Text, ".gsc", MainForm.treeGridItemCollection);
+                    Backend.File_Create.CreateFile(controllerProject.get_path(), FileName.Text);
+                    Backend.File_Create.AddPageTabcontrol(mainForm, FileName.Text, "//" + FileName.Text + " file !");
+                    Backend.File_Create.AddItemToTreeGrid(mainForm, FileName.Text, ".gsc", MainForm.treeGridItemCollection);
                     this.Close();
                 }
                 catch

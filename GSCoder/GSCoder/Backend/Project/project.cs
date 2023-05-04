@@ -74,10 +74,10 @@ namespace GSCoder.Backend.Project
                             string fileContent = await File.ReadAllTextAsync(file);
 
                             //Add the file to the treeview
-                            AddItemToTreeGrid(form, Path.GetFileNameWithoutExtension(file), Path.GetExtension(file), MainForm.treeGridItemCollection);
+                            File_Create.AddItemToTreeGrid(form, Path.GetFileNameWithoutExtension(file), Path.GetExtension(file), MainForm.treeGridItemCollection);
 
                             // Add the TabPage to the TabControl
-                            AddPageTabcontrol(form, Path.GetFileNameWithoutExtension(file), fileContent);
+                            File_Create.AddPageTabcontrol(form, Path.GetFileNameWithoutExtension(file), fileContent);
                         }
                     }
 
@@ -91,33 +91,7 @@ namespace GSCoder.Backend.Project
             }
         }
 
-        public static void AddPageTabcontrol(MainForm form, string file_name, string fileContent)
-        {
-            var rightPanel = MainForm.rightPanel;
-
-            // Create a new TabPage with the TextArea as content
-            var tabPage = new TabPage()
-            {
-                Text = Path.GetFileName(file_name),
-                Content = new RichTextArea
-                {
-                    Text = fileContent
-                }
-            };
-
-
-            ((TabControl)rightPanel.Content).Pages.Add(tabPage);
-        }
-
-        public static void AddItemToTreeGrid(MainForm form, string file_name, string file_extension, TreeGridItemCollection treeGridItemCollection)
-        {
-            var leftPanel = MainForm.leftPanel;
-
-            //get the file name without the extension
-            treeGridItemCollection.Add(new TreeGridItem { Values = new object[] { file_name, file_extension } });
-
-            ((TreeGridView)leftPanel.Content).DataStore = treeGridItemCollection;
-        }
+        
 
         public static void CreateProject(Create_project form)
         {

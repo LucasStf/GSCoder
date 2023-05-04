@@ -38,12 +38,9 @@ namespace GSCoder.Front
                     var selected_file = Backend.utils.GetSelectedItemTreeGridView(mainForm);
                     if(selected_file != null)
                     {
-                        //rename the file
-                        var file_path = Path.Combine(controllerProject.get_path(), Backend.utils.GetSelectedItemTreeGridView(mainForm) + ".gsc");
-                        var new_file_path = Path.Combine(controllerProject.get_path(), FileName.Text + ".gsc");
-                        File.Move(file_path, new_file_path);
-                        Backend.utils.RenameItemTreeGridView(mainForm, FileName.Text);
-                        Backend.utils.RenameTabPage(mainForm, FileName.Text, selected_file);
+                        Backend.File_Rename.MoveFile(controllerProject.get_path(), Backend.utils.GetSelectedItemTreeGridView(mainForm), FileName.Text);
+                        Backend.File_Rename.RenameItemTreeGridView(mainForm, FileName.Text);
+                        Backend.File_Rename.RenameTabPage(mainForm, FileName.Text, selected_file);
                         Close();
                     }
                     else
