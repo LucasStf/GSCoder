@@ -65,7 +65,18 @@ namespace GSCoder.Front
                         Text = "Save File",
                         Command = new Command((sender2, e2) =>
                         {
+                            //var saveFile = new Save_File(form);
+                            //saveFile.Show();
+                        })
+                    });
 
+                    menu.Items.Add(new ButtonMenuItem
+                    {
+                        Text = "Rename File",
+                        Command = new Command((sender2, e2) =>
+                        {
+                            var renameFile = new Rename_file(form);
+                            renameFile.Show();
                         })
                     });
 
@@ -74,7 +85,8 @@ namespace GSCoder.Front
                         Text = "Delete File",
                         Command = new Command((sender2, e2) =>
                         {
-
+                            //var deleteFile = new Delete_file(form);
+                            //deleteFile.Show();
                         })
                     });
 
