@@ -1,3 +1,5 @@
+using System;
+
 namespace GSCoder.Backend
 {
     class utils
@@ -16,6 +18,13 @@ namespace GSCoder.Backend
             {
                 return null;
             }
+        }
+
+        public static int GetLinesNumber(string fileContent)
+        {
+            
+            var lines = fileContent.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+            return lines.Length;
         }
     }
 }
