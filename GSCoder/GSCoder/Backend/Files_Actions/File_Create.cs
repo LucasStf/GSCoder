@@ -17,6 +17,7 @@ namespace GSCoder.Backend
             {
                 ID = "CustomRichTextArea",
                 CaretIndex = fileContent.Length,
+                Text = fileContent,
                 //move text to the right
             };
 
@@ -85,16 +86,6 @@ namespace GSCoder.Backend
                 Content = ScrollableWindow
             };
 
-            ((TabControl)rightPanel.Content).Pages.Add(tabPage);
-
-            // Add event listener for scrolling of text area
-            textArea.MouseWheel += (sender, e) =>
-            {
-                
-            };
-
-
-
             textArea.TextChanged += (sender, e) =>
             {
                 var lines = utils.GetLinesNumber(textArea.Text).ToString();
@@ -108,17 +99,38 @@ namespace GSCoder.Backend
                     // Update the line numbers
                     label.Text = lineNumbers;
                 }
+
+                // Trouver la dernière occurrence d'un espace ou d'un retour à la ligne avant la position du curseur
+                int startIndex = textArea.Text.LastIndexOfAny(new char[] { ' ', '\n', '\r' }, textArea.CaretIndex - 1) + 1;
+
+                // Extraire le texte entre la position trouvée et la position actuelle du curseur
+                string currentText = textArea.Text.Substring(startIndex, textArea.CaretIndex - startIndex);
+
+                bool isTypeValid = lexer.IsTypeValid(currentText);
+
+                if (isTypeValid)
+                {
+                    textArea.Selection = new Range<int>(startIndex, textArea.CaretIndex);
+                    textArea.SelectionForeground = Color.FromArgb(255, 255, 0, 0);
+                }
+                else
+                {
+                    // set the text color to white
+                    textArea.TextColor = Color.FromArgb(255, 255, 255, 255);
+                }
             };
-            textArea.Text = fileContent;
 
             //event when the user click enter
             textArea.KeyDown += (sender, e) =>
             {
-                if (e.Key == Keys.Enter)
+                if (e.Key == Keys.Space)
                 {
                     
                 }
             };
+
+
+            ((TabControl)rightPanel.Content).Pages.Add(tabPage);
 
         }
 
