@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using Eto.Drawing;
+using Eto.Forms;
 
 namespace GSCoder.Backend
 {
@@ -18,13 +21,6 @@ namespace GSCoder.Backend
             {
                 return null;
             }
-        }
-
-        public static int GetLinesNumber(string fileContent)
-        {
-            
-            var lines = fileContent.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-            return lines.Length;
         }
     }
 }
