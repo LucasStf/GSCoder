@@ -4,66 +4,43 @@ namespace GSCoder.Backend
 {
     class Syntax_Color
     {
-        //define all colors
-        public static Color CommentColor = Color.FromArgb(255, 87, 166, 74);
-        public static Color PonctuationColor = Color.FromArgb(255, 86, 156, 214);
-        public static Color KeywordColor = Color.FromArgb(255, 155, 81, 224);
-        public static Color ModifierColor = Color.FromArgb(255, 43, 145, 175);
-        public static Color OperatorColor = Color.FromArgb(255, 224, 224, 224);
-        public static Color TypeColor = Color.FromArgb(255, 86, 156, 214);
-
-
-        public static string GetToken(string currentText)
+        public static Color GetSyntaxColor(lexer.TokenTypes tokenType)
         {
-            //create a tokentype variable
-            string tokenType = "";
+            switch (tokenType)
+            {
+                case lexer.TokenTypes.Comment:
+                    return Colors.Green;
 
-            //get the type of the token
-            if(lexer.IsCommentValid(currentText))
-                tokenType = "Comment";
+                case lexer.TokenTypes.Punctuation:
+                    return Colors.Blue;
 
-            if(lexer.IsPonctuationValid(currentText))
-                tokenType = "Ponctuation";
+                case lexer.TokenTypes.Keyword:
+                    return Colors.Red;
 
-            if(lexer.IsKeywordValid(currentText))
-                tokenType = "Keyword";
+                case lexer.TokenTypes.Modifier:
+                    return Colors.Purple;
 
-            if(lexer.IsModifierValid(currentText))
-                tokenType = "Modifier";
+                case lexer.TokenTypes.Operator:
+                    return Colors.Yellow;
 
-            if(lexer.IsOperatorValid(currentText))
-                tokenType = "Operator";
+                case lexer.TokenTypes.Type:
+                    return Colors.Orange;
 
-            if(lexer.IsTypeValid(currentText))
-                tokenType = "Type";        
+                case lexer.TokenTypes.String:
+                    return Colors.Brown;
 
-            return tokenType;                    
-        }
+                case lexer.TokenTypes.Integer:
+                    return Colors.Gray;
 
-        public static Color GetColorByToken(string token)
-        {
-            var color = Colors.White;
+                case lexer.TokenTypes.Float:
+                    return Colors.Gray;
 
-            //get the color of the token
-            if(token == "Comment")
-                color = CommentColor;
+                case lexer.TokenTypes.Unknown:
+                    return Colors.White;
 
-            if(token == "Ponctuation")
-                color = PonctuationColor;
-
-            if(token == "Keyword")
-                color = KeywordColor;
-
-            if(token == "Modifier")
-                color = ModifierColor;
-
-            if(token == "Operator")
-                color = OperatorColor;
-
-            if(token == "Type")
-                color = TypeColor;
-                                    
-            return color;
+                default:
+                    return Colors.White;
+            }
         }
     }
 }

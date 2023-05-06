@@ -84,15 +84,15 @@ namespace GSCoder.Backend
                 // Extraire le texte entre la position trouvée et la position actuelle du curseur
                 string currentText = textArea.Text.Substring(startIndex, textArea.CaretIndex - startIndex);
 
-                string token = Syntax_Color.GetToken(currentText);
+                var token = lexer.GetTokenType(currentText);
 
-                var color = Syntax_Color.GetColorByToken(token);
+                var color = Syntax_Color.GetSyntaxColor(token);
 
 
                 // set the text color to white
                 textArea.TextColor = Color.FromArgb(255, 255, 255, 255);
 
-                if(token != "")
+                if(token != lexer.TokenTypes.Unknown)
                 {
                     //set the selection on the current text
                     textArea.Selection = new Range<int>(startIndex, startIndex + currentText.Length -1);
