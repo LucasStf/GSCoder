@@ -27,9 +27,94 @@ namespace GSCoder.Backend
             return tokens;
         }
 
+        public static bool CheckFunctionsSyntax(List<lexer.Tokens> tokens)
+        {
+            bool syntaxError = false;
+            int braceCount = 0;
+            int parenCount = 0;
+
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                if (tokens[i] == lexer.Tokens.LeftBrace)
+                {
+                    braceCount++;
+                }
+                else if (tokens[i] == lexer.Tokens.RightBrace)
+                {
+                    braceCount--;
+                    if (braceCount < 0)
+                    {
+                        syntaxError = true;
+                        utils.WriteToLogArea("Syntax error: unmatched right curly brace at line " + i, true);
+                        break;
+                    }
+                }
+                else if (tokens[i] == lexer.Tokens.LeftParenthesis)
+                {
+                    parenCount++;
+                }
+                else if (tokens[i] == lexer.Tokens.RightParenthesis)
+                {
+                    parenCount--;
+                    if (parenCount < 0)
+                    {
+                        syntaxError = true;
+                        utils.WriteToLogArea("Syntax error: unmatched right parenthesis at line " + i, true);
+                        break;
+                    }
+                }
+                else if (braceCount == 0 && parenCount == 0 && tokens[i] == lexer.Tokens.Unknown && i < tokens.Count - 1 && tokens[i+1] == lexer.Tokens.LeftParenthesis)
+                {
+                    int j = i + 2;
+                    parenCount = 1;
+                    while (j < tokens.Count)
+                    {
+                        if (tokens[j] == lexer.Tokens.LeftParenthesis)
+                        {
+                            parenCount++;
+                        }
+                        else if (tokens[j] == lexer.Tokens.RightParenthesis)
+                        {
+                            parenCount--;
+                            if (parenCount == 0)
+                            {
+                                i = j;
+                                break;
+                            }
+                        }
+                        j++;
+                    }
+                    if (parenCount != 0)
+                    {
+                        syntaxError = true;
+                        utils.WriteToLogArea("Syntax error: unmatched left parenthesis at line " + i, true);
+                        break;
+                    }
+                }
+            }
+
+            if (braceCount != 0)
+            {
+                syntaxError = true;
+                utils.WriteToLogArea("Syntax error: unmatched left curly brace", true);
+            }
+            else if (parenCount != 0)
+            {
+                syntaxError = true;
+                utils.WriteToLogArea("Syntax error: unmatched left parenthesis", true);
+            }
+
+            return syntaxError;
+        }
+
         public static bool CheckSyntaxErrors(List<lexer.Tokens> tokens)
         {
             bool syntaxError = false;
+
+            if(CheckFunctionsSyntax(tokens) == true)
+            {
+                syntaxError = true;
+            }
 
             //check the wait syntax
             for (int i = 0; i < tokens.Count; i++)
@@ -47,6 +132,7 @@ namespace GSCoder.Backend
                         i += 3;
                     }
                 }
+
             }
 
             return syntaxError;

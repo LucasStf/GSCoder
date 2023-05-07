@@ -19,7 +19,6 @@ namespace GSCoder.Backend
             Integer,
             Float,
             Identifier,
-            Number,
             Unknown
         }
 
@@ -33,7 +32,6 @@ namespace GSCoder.Backend
             Entity,
             String,
             Code,
-            Number,
 
             // Keywords
             Break,
@@ -247,7 +245,7 @@ namespace GSCoder.Backend
 
                 //if this is a number
                 case var a when Regex.IsMatch(a, @"^\d+$"):
-                    return TokenTypes.Number;    
+                    return TokenTypes.Integer;
                 default:
                     return TokenTypes.Unknown;
             }
