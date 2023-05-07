@@ -22,5 +22,46 @@ namespace GSCoder.Backend
                 return null;
             }
         }
+
+        public static string code = @"/*
+                        Thanks to use the LTMT_Studio
+                        LTMT_Studio :: The Best Open Source GSC IDE!
+                        Project : 
+                        Author : 
+                        Game :
+                        Description :
+                        Date :
+                    */
+
+                    #include common_scripts\utility;
+
+                    init()
+                    {
+                        level thread onPlayerConnect();
+                    }
+
+                    onPlayerConnect()
+                    {
+                        for(;;)
+                        {
+                            level waittill(""connected"", player);
+                            player thread onPlayerSpawned();
+                        }
+                    }
+
+                    onPlayerSpawned()
+                    {
+                        self endon(""disconnect"");
+                        level endon(""game_ended"");
+                        for(;;)
+                        {
+                            self waittill(""spawned_player"");
+                            if(isDefined(self.playerSpawned))
+                                continue;
+                            self.playerSpawned = true;
+
+                            self freezeControls(false);
+                        }
+                    }";
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Eto.Drawing;
 using Eto.Forms;
@@ -110,9 +111,30 @@ namespace GSCoder.Backend
             //event when the user click enter
             textArea.KeyDown += (sender, e) =>
             {
-                if (e.Key == Keys.Space)
+                //if shift + enter is pressed
+                if (e.Key == Keys.E && e.Modifiers == Keys.Control)
                 {
+                    MessageBox.Show("Searching for errors...");
+                    List<string> ParsedCode = parser.GetParsedCode(textArea.Text);
+                    List<lexer.Tokens> TokensList = new List<lexer.Tokens>();
+
+                    foreach (string token in ParsedCode)
+                    {
+                        TokensList.Add(lexer.GetToken(token));
+                    }
+
+                    /*foreach (lexer.Tokens token in TokensList)
+                    {
+                        Console.WriteLine(token);
+                    }*/
                     
+                    parser.CheckSyntaxErrors(TokensList);
+                }
+
+                //if ctrl + s is pressed
+                if (e.Key == Keys.S && e.Modifiers == Keys.Control)
+                {
+                    MessageBox.Show("Ctrl + S");
                 }
             };
     

@@ -108,6 +108,9 @@ namespace GSCoder.Backend.Project
                     //create the main.gsc file
                     File.Create(project_path + "/main.gsc");
 
+                    //write into the main.gsc file
+                    //File.WriteAllTextAsync(project_path + "/main.gsc", utils.code);
+
                     project_infos project_Infos = new project_infos(form.nomTextBox.Text, form.jeuComboBox.SelectedValue.ToString(), project_path);
                     
                     form.Close();
