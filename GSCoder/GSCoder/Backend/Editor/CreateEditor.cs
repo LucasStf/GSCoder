@@ -114,7 +114,6 @@ namespace GSCoder.Backend
                 //if shift + enter is pressed
                 if (e.Key == Keys.E && e.Modifiers == Keys.Control)
                 {
-                    MessageBox.Show("Searching for errors...");
                     List<string> ParsedCode = parser.GetParsedCode(textArea.Text);
                     List<lexer.Tokens> TokensList = new List<lexer.Tokens>();
 
@@ -128,7 +127,11 @@ namespace GSCoder.Backend
                         Console.WriteLine(token);
                     }*/
                     
-                    parser.CheckSyntaxErrors(TokensList);
+                    bool syntaxErrors = parser.CheckSyntaxErrors(TokensList);
+                    if (syntaxErrors == false)
+                    {
+                        utils.WriteToLogArea("No syntax errors found", false);
+                    }
                 }
 
                 //if ctrl + s is pressed

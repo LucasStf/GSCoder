@@ -23,6 +23,23 @@ namespace GSCoder.Backend
             }
         }
 
+        public static void WriteToLogArea(string text, bool isError)
+        {
+            //clear the log area
+            MainForm.logArea.Text = "";
+            if (isError)
+            {
+                MainForm.logArea.TextColor = Colors.Red;
+                MainForm.logArea.Text += text + "\n";
+            }
+            else
+            {
+                MainForm.logArea.TextColor = Colors.Green;
+                MainForm.logArea.Text += text + "\n";
+            }
+        }
+
+
         public static string code = @"/*
                         Thanks to use the LTMT_Studio
                         LTMT_Studio :: The Best Open Source GSC IDE!

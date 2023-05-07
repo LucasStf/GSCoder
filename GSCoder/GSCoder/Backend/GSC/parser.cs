@@ -27,8 +27,10 @@ namespace GSCoder.Backend
             return tokens;
         }
 
-        public static void CheckSyntaxErrors(List<lexer.Tokens> tokens)
+        public static bool CheckSyntaxErrors(List<lexer.Tokens> tokens)
         {
+            bool syntaxError = false;
+
             //check the wait syntax
             for (int i = 0; i < tokens.Count; i++)
             {
@@ -37,25 +39,27 @@ namespace GSCoder.Backend
                 {
                     if (CheckWaitSyntax(tokens.GetRange(i, 3)) == false)
                     {
-                        Console.WriteLine("Syntax error: wait syntax is wrong");
+                        utils.WriteToLogArea("Syntax error at line " + i, true);
+                        syntaxError = true;
                     }
                     else
                     {
                         i += 3;
-                        Console.WriteLine("wait syntax is correct");
                     }
                 }
             }
+
+            return syntaxError;
         }
 
 
         //check the wait syntax
         public static bool CheckWaitSyntax(List<lexer.Tokens> tokens)
         {
-            foreach (lexer.Tokens token in tokens)
+            /*foreach (lexer.Tokens token in tokens)
             {
                 Console.WriteLine(token);
-            }
+            }*/
 
             if (tokens[0] != lexer.Tokens.Wait)
                 return false;

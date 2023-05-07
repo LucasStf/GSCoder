@@ -5,17 +5,10 @@ namespace GSCoder.Front
     {
         public static Splitter CreateLogArea()
         {
-            var textArea = new TextArea()
-            {
-                ID = "logTextArea",
-                ReadOnly = true,
-                Wrap = false,
-            };
-
             var panel = new Panel
             {
                 ID = "panel_log",
-                Content = textArea
+                Content = MainForm.logArea,
             };
 
             var splitter = new Splitter

@@ -9,6 +9,8 @@ namespace GSCoder
         public static Panel rightPanel;
         public static Panel leftPanel;
 
+        public static TextArea logArea = new TextArea();
+
         public static TreeGridItemCollection treeGridItemCollection = new TreeGridItemCollection();
 
         public MainForm()
