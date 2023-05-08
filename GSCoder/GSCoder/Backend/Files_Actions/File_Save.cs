@@ -42,6 +42,7 @@ namespace GSCoder.Backend
                     byte[] info = new UTF8Encoding(true).GetBytes(text);
                     // Add some information to the file.
                     fs.WriteAsync(info, 0, info.Length);
+                    MessageBox.Show("File saved !");
                 }
             }
             catch (Exception ex)

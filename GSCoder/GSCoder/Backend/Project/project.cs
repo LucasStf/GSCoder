@@ -84,7 +84,7 @@ namespace GSCoder.Backend.Project
                     //get the last directory of the project path
                     string projectName = projectPath.Split('/').Last();
                     //get the game name in the project path
-                    string gameName = projectPath.Split('/')[projectPath.Split('/').Length - 2];
+                    string gameName = projectPath.Split('/')[projectPath.Split('/').Length - 1];
 
                     project_infos project_Infos = new project_infos(projectName, gameName, projectPath);
                 }

@@ -13,7 +13,6 @@ namespace GSCoder.Backend
               var textArea = new CustomRichTextArea
             {
                 ID = "CustomRichTextArea",
-                CaretIndex = fileContent.Length,
                 Text = fileContent,
                 //move text to the right
             };
@@ -91,7 +90,7 @@ namespace GSCoder.Backend
 
 
                 // set the text color to white
-                textArea.TextColor = Color.FromArgb(255, 255, 255, 255);
+                textArea.TextColor = Colors.Black;
 
                 if(token != lexer.TokenTypes.Unknown)
                 {
@@ -112,7 +111,7 @@ namespace GSCoder.Backend
             textArea.KeyDown += (sender, e) =>
             {
                 //if shift + enter is pressed
-                if (e.Key == Keys.E && e.Modifiers == Keys.Control)
+                if (e.Key == Keys.Q && e.Modifiers == Keys.Control)
                 {
                     List<string> ParsedCode = parser.GetParsedCode(textArea.Text);
                     List<lexer.Tokens> TokensList = new List<lexer.Tokens>();
@@ -124,13 +123,21 @@ namespace GSCoder.Backend
 
                     /*foreach (lexer.Tokens token in TokensList)
                     {
-                        Console.WriteLine(token);
+                        MessageBox.Show(token.ToString());
                     }*/
-                    
-                    bool syntaxErrors = parser.CheckSyntaxErrors(TokensList);
-                    if (syntaxErrors == false)
+
+                    if (TokensList.Count > 0)
                     {
-                        utils.WriteToLogArea("No syntax errors found", false);
+                        bool syntaxErrors = parser.CheckSyntaxErrors(TokensList);
+                        if (syntaxErrors == false)
+                        {
+                            utils.WriteToLogArea("No syntax errors found", false);
+                        }
+                        MessageBox.Show("Syntax checked !");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No tokens...");
                     }
                 }
 

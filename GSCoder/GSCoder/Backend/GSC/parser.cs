@@ -10,7 +10,7 @@ namespace GSCoder.Backend
         public static List<string> GetParsedCode(string code)
         {
             // Ignorer les commentaires qui commencent par // et /* et qui finissent par */
-            code = Regex.Replace(code, @"(//.*|/\*.*?\*/)", string.Empty, RegexOptions.Singleline);
+            //code = Regex.Replace(code, @"(//.*|/\*.*?\*/)", string.Empty, RegexOptions.Singleline);
 
             List<string> tokens = new List<string>();
 
