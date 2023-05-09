@@ -15,9 +15,10 @@ namespace GSCoder
 
         public MainForm()
         {
-            this.WindowStyle = WindowStyle.None;
+            this.WindowStyle = WindowStyle.Default;
 
-            BackgroundColor = project_infos.main_color;
+
+            BackgroundColor = Color.FromArgb(68, 71, 90);
             Backend.Project.project.checkup();
 
             Title = "GSCoder";

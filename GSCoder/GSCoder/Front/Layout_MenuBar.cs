@@ -57,6 +57,7 @@ namespace GSCoder.Front
                     new SubMenuItem { Text = "&About", Items = { aboutCommand } }
                 },
             };
+            
             #endregion
             return menu;
         }

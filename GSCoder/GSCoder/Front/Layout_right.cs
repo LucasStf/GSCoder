@@ -30,7 +30,7 @@ namespace GSCoder.Front
             var tabControl = new TabControl()
             {
                 ID = "tabControl",
-                BackgroundColor = project_infos.main_color,
+                BackgroundColor = Color.FromArgb(216,222,233, 0),
             };
 
             // Créer un panneau pour contenir le TabControl

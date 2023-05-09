@@ -6,7 +6,7 @@ class project_infos
     public static string game;
     public static string path;
 
-    public static Color main_color = Color.FromArgb(40, 42, 54);
+    public static Color main_color = Color.FromArgb(56, 58, 75, 200);
     public static Color foreground_color = Color.FromArgb(248, 248, 242);
     
 

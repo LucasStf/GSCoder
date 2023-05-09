@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Eto.Drawing;
 using Eto.Forms;
 
@@ -15,8 +16,10 @@ namespace GSCoder.Backend
             // Create a new TabPage with the TableLayout as content
             var tabPage = new TabPage()
             {
-                Text = Path.GetFileName(file_name),
                 Content = CreateEditor.Create(fileContent),
+                Text = file_name,
+                //Padding = new Padding(10),
+                //BackgroundColor = project_infos.main_color,
             };
 
             ((TabControl)rightPanel.Content).Pages.Add(tabPage);

@@ -10,7 +10,7 @@ namespace GSCoder.Backend
     {
         public static Scrollable Create(string fileContent)
        {
-              var textArea = new CustomRichTextArea
+            var textArea = new CustomRichTextArea
             {
                 Text = fileContent,
             };
@@ -95,7 +95,7 @@ namespace GSCoder.Backend
 
 
                 // set the text color to white
-                textArea.TextColor = Colors.Black;
+                textArea.TextColor = project_infos.foreground_color;
 
                 if(token != lexer.TokenTypes.Unknown)
                 {
