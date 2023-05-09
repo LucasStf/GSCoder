@@ -64,6 +64,9 @@ namespace GSCoder.Backend
             string lineNumbers = Lines.GetLinesNumber(textArea.Text);
             label.Text = lineNumbers;
 
+            //syntax color
+            Syntax_Color.SetSyntaxColorOpenProject(textArea);
+
             textArea.TextChanged += (sender, e) =>
             {
 
@@ -83,7 +86,7 @@ namespace GSCoder.Backend
                 #region Syntax Color
             
                 // Trouver la dernière occurrence d'un espace ou d'un retour à la ligne avant la position du curseur
-         int startIndex = textArea.Text.LastIndexOfAny(new char[] { ' ', '\n', '\r' }, textArea.CaretIndex - 1) + 1;
+                int startIndex = textArea.Text.LastIndexOfAny(new char[] { ' ', '\n', '\r' }, textArea.CaretIndex - 1) + 1;
 
                 // Extraire le texte entre la position trouvée et la position actuelle du curseur
                 string currentText = textArea.Text.Substring(startIndex, textArea.CaretIndex - startIndex);
