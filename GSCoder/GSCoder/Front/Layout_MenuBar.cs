@@ -14,6 +14,7 @@ namespace GSCoder.Front
             #region Project
             // create a few commands that can be used for the menu
             var open_project = new Command { MenuText = "Open" };
+            
             open_project.Executed += async (sender, e) =>
             {
                 await Backend.Project.project.OpenProject(form);
@@ -43,7 +44,6 @@ namespace GSCoder.Front
             var aboutCommand = new Command { MenuText = "About..." };
             aboutCommand.Executed += (sender, e) => new AboutDialog().ShowDialog(form);
 
-
             #region MenuBar
             // create menu
             var menu = new MenuBar
@@ -57,9 +57,7 @@ namespace GSCoder.Front
                     new SubMenuItem { Text = "&About", Items = { aboutCommand } }
                 },
             };
-
             #endregion
-
             return menu;
         }
     }

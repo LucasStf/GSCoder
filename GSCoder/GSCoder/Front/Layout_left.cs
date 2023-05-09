@@ -1,26 +1,11 @@
 ﻿using System.IO;
+using Eto.Drawing;
 using Eto.Forms;
 
 namespace GSCoder.Front
 {
     class Layout_left : Form
     {
-        public static StackLayout create_layout_left(GSCoder.MainForm form)
-        {
-            var layout = new StackLayout()
-            {
-                Padding = 10,
-                Orientation = Orientation.Vertical,
-
-                Items =
-                {
-                    "Hello World !",
-                }
-            };
-
-            return layout;
-        }
-
         public static Panel CreateLeftPanel(MainForm form)
         {
             var treeGridView = new TreeGridView()
@@ -32,7 +17,7 @@ namespace GSCoder.Front
             {
                 HeaderText = "File",
                 DataCell = new TextBoxCell(0),
-                MinWidth = 100
+                MinWidth = 100,
             });
 
             treeGridView.Columns.Add(new GridColumn
@@ -97,7 +82,7 @@ namespace GSCoder.Front
             var panel = new Panel
             {
                 ID = "panel_left",
-                Content = treeGridView
+                Content = treeGridView,
             };
 
             return panel;

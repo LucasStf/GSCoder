@@ -12,16 +12,13 @@ namespace GSCoder.Backend
        {
               var textArea = new CustomRichTextArea
             {
-                ID = "CustomRichTextArea",
                 Text = fileContent,
-                //move text to the right
             };
 
             var label = new Label
             { 
-                //VerticalAlignment = VerticalAlignment.Center,
-                //text color
-                TextColor = Color.FromArgb(76, 86, 106, 255),
+                TextColor = project_infos.foreground_color,
+                BackgroundColor = project_infos.main_color,
             };
 
 
@@ -51,6 +48,7 @@ namespace GSCoder.Backend
                 //ColumnWidths = { 50, -1 }
                 //Padding = new Padding(10),
                 Spacing = new Size(10, 10),
+                BackgroundColor = project_infos.main_color,
             };
 
             var ScrollableWindow = new Scrollable

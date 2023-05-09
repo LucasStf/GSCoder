@@ -1,8 +1,13 @@
+using Eto.Drawing;
+
 class project_infos
 {
     public static string name;
     public static string game;
     public static string path;
+
+    public static Color main_color = Color.FromArgb(40, 42, 54);
+    public static Color foreground_color = Color.FromArgb(248, 248, 242);
     
 
     public project_infos(string name, string game, string path)

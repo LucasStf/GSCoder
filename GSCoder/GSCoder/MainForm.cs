@@ -15,6 +15,9 @@ namespace GSCoder
 
         public MainForm()
         {
+            this.WindowStyle = WindowStyle.None;
+
+            BackgroundColor = project_infos.main_color;
             Backend.Project.project.checkup();
 
             Title = "GSCoder";
@@ -23,6 +26,8 @@ namespace GSCoder
 
             leftPanel = Layout_left.CreateLeftPanel(this);
             rightPanel = Layout_right.CreateRightPanel();
+
+            leftPanel.BackgroundColor = project_infos.main_color;
 
             var splitter = new Splitter
             {
@@ -34,6 +39,9 @@ namespace GSCoder
             };
 
             var logPanel = CreateLogPanel.CreateLogArea();
+            logArea.BackgroundColor = project_infos.main_color;
+            logArea.TextColor = project_infos.foreground_color;
+
             var mainSplitter = new Splitter
             {
                 Orientation = Orientation.Horizontal,
@@ -41,7 +49,7 @@ namespace GSCoder
                 Panel1 = splitter,
                 Panel2 = logPanel,
                 SplitterWidth = 5,
-                Position = 200
+                Position = 200,
             };
 
 
