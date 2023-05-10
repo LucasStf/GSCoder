@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -6,7 +5,6 @@ namespace GSCoder.Backend
 {
     class lexer
     {
-
         public enum TokenTypes
         {
             Comment,
@@ -206,8 +204,6 @@ namespace GSCoder.Backend
             {"}", Tokens.RightBrace}
         };
 
-
-
         private static readonly Dictionary<string, Tokens> Types = new Dictionary<string, Tokens>
         {
             {"void", Tokens.Void},
@@ -242,7 +238,6 @@ namespace GSCoder.Backend
                     return TokenTypes.Keyword;
                 case var z when Modifiers.ContainsKey(z):
                     return TokenTypes.Modifier;
-
                 //if this is a number
                 case var a when Regex.IsMatch(a, @"^\d+$"):
                     return TokenTypes.Integer;

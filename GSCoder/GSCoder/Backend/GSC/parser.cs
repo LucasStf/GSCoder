@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Eto.Forms;
 
 namespace GSCoder.Backend
 {
@@ -132,12 +130,9 @@ namespace GSCoder.Backend
                         i += 3;
                     }
                 }
-
             }
-
             return syntaxError;
         }
-
 
         //check the wait syntax
         public static bool CheckWaitSyntax(List<lexer.Tokens> tokens)
@@ -158,6 +153,5 @@ namespace GSCoder.Backend
 
             return true;
         }
-
     }
 }

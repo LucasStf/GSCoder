@@ -1,6 +1,4 @@
-﻿using System.IO;
-using Eto.Drawing;
-using Eto.Forms;
+﻿using Eto.Forms;
 
 namespace GSCoder.Front
 {
@@ -12,8 +10,6 @@ namespace GSCoder.Front
             {
                 ID = "treeGridView",
             };
-
-
 
             treeGridView.Columns.Add(new GridColumn
             {
@@ -79,7 +75,6 @@ namespace GSCoder.Front
                     menu.Show(treeGridView, treeGridView.PointFromScreen(Mouse.Position));
                 }
             };
-
 
             var panel = new Panel
             {

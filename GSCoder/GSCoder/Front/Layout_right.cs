@@ -1,8 +1,4 @@
-﻿using Eto.Drawing;
-using Eto.Forms;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Eto.Forms;
 
 namespace GSCoder.Front
 {
@@ -30,7 +26,7 @@ namespace GSCoder.Front
             var tabControl = new TabControl()
             {
                 ID = "tabControl",
-                BackgroundColor = Color.FromArgb(216,222,233, 0),
+                BackgroundColor = project_infos.tabcontrol_background_color,
             };
 
             // Créer un panneau pour contenir le TabControl

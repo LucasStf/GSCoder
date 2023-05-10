@@ -12,7 +12,7 @@ namespace GSCoder.Front
         public ComboBox jeuComboBox;
         public Button creerButton;
 
-        public Create_project()
+        public Create_project(MainForm mainForm)
         {
             Title = "New project";
 
@@ -42,7 +42,7 @@ namespace GSCoder.Front
 
             creerButton.Click += (sender, e) =>
             {
-                Backend.Project.project.CreateProject(this);
+                Backend.Project.project.CreateProject(mainForm, this);
             };
         }
     }

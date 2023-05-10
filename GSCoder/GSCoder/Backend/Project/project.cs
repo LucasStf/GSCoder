@@ -1,11 +1,8 @@
 ﻿using Directories.Net;
-using Eto.Drawing;
 using Eto.Forms;
 using GSCoder.Front;
-using System;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace GSCoder.Backend.Project
@@ -17,7 +14,6 @@ namespace GSCoder.Backend.Project
             UserDirectories userdirs = new UserDirectories();
             var GSCoderFolder = userdirs.DocumentDir + "/GSCoder";
             var GSCoderFolderProjects = GSCoderFolder + "/Projects";
-
 
             //check if the app directory exist
             try
@@ -38,65 +34,48 @@ namespace GSCoder.Backend.Project
             }
         }
 
-        public static async Task OpenProject(MainForm form)
+        public static async Task OpenProject(MainForm form, string projectPath)
         {
-            // Show the select folder dialog to let the user choose the project folder
-            using (var dialog = new SelectFolderDialog())
+            var leftPanel = MainForm.leftPanel;
+            var rightPanel = MainForm.rightPanel;
+
+            // Create a new TabControl
+            var tabControl = new TabControl();
+
+            ((TabControl)rightPanel.Content).Pages.Clear();
+
+            // Get all the files in the project folder
+            string[] files = Directory.GetFiles(projectPath);
+
+            // Loop through the files and create a new tab page with a TextArea for each file
+            foreach (string file in files)
             {
-                //open the dialog in the documents dir
-                UserDirectories userdirs = new UserDirectories();
-                dialog.Directory = userdirs.DocumentDir + "/GSCoder/Projects";
-
-                DialogResult result = dialog.ShowDialog(form);
-                if (result == DialogResult.Ok)
+                //if the file is a .gsc file
+                if (Path.GetExtension(file) == ".gsc")
                 {
-                    string projectPath = dialog.Directory;
+                    // Read the content of the file
+                    string fileContent = await File.ReadAllTextAsync(file);
 
-                    var leftPanel = MainForm.leftPanel;
-                    var rightPanel = MainForm.rightPanel;
+                    //Add the file to the treeview
+                    File_Create.AddItemToTreeGrid(form, Path.GetFileNameWithoutExtension(file), Path.GetExtension(file), MainForm.treeGridItemCollection);
 
-                    // Create a new TabControl
-                    var tabControl = new TabControl();
-
-                    ((TabControl)rightPanel.Content).Pages.Clear();
-
-                    // Get all the files in the project folder
-                    string[] files = Directory.GetFiles(projectPath);
-
-
-                    // Loop through the files and create a new tab page with a TextArea for each file
-                    foreach (string file in files)
-                    {
-                        //if the file is a .gsc file
-                        if (Path.GetExtension(file) == ".gsc")
-                        {
-                            // Read the content of the file
-                            string fileContent = await File.ReadAllTextAsync(file);
-
-                            //Add the file to the treeview
-                            File_Create.AddItemToTreeGrid(form, Path.GetFileNameWithoutExtension(file), Path.GetExtension(file), MainForm.treeGridItemCollection);
-
-                            // Add the TabPage to the TabControl
-                            File_Create.AddPageTabcontrol(form, Path.GetFileNameWithoutExtension(file), fileContent);
-                        }
-                    }
-
-                    //get the last directory of the project path
-                    string projectName = projectPath.Split('/').Last();
-                    //get the game name in the project path
-                    string gameName = projectPath.Split('/')[projectPath.Split('/').Length - 1];
-
-                    project_infos project_Infos = new project_infos(projectName, gameName, projectPath);
+                    // Add the TabPage to the TabControl
+                    File_Create.AddPageTabcontrol(form, Path.GetFileNameWithoutExtension(file), fileContent);
                 }
             }
+
+            //get the last directory of the project path
+            string projectName = projectPath.Split('/').Last();
+            //get the game name in the project path
+            string gameName = projectPath.Split('/')[projectPath.Split('/').Length - 1];
+
+            project_infos project_Infos = new project_infos(projectName, gameName, projectPath);
         }
 
-        
-
-        public static void CreateProject(Create_project form)
+        public static async void CreateProject(MainForm mainForm, Create_project create_Project_form)
         {
             UserDirectories userDirectories = new UserDirectories();
-            var project_path = userDirectories.DocumentDir + "/GSCoder/Projects/" + form.jeuComboBox.SelectedValue + "/" + form.nomTextBox.Text;
+            var project_path = userDirectories.DocumentDir + "/GSCoder/Projects/" + create_Project_form.jeuComboBox.SelectedValue + "/" + create_Project_form.nomTextBox.Text;
             //check if a project already exist
             if(!Directory.Exists(project_path))
             {
@@ -106,14 +85,17 @@ namespace GSCoder.Backend.Project
                     Directory.CreateDirectory(project_path);
 
                     //create the main.gsc file
-                    File.Create(project_path + "/main.gsc");
+                    using (StreamWriter sw = new StreamWriter(File.Create(project_path + "/main.gsc")))
+                    {
+                        sw.Write(utils.code);
+                    }
 
-                    //write into the main.gsc file
-                    //File.WriteAllTextAsync(project_path + "/main.gsc", utils.code);
-
-                    project_infos project_Infos = new project_infos(form.nomTextBox.Text, form.jeuComboBox.SelectedValue.ToString(), project_path);
+                    project_infos project_Infos = new project_infos(create_Project_form.nomTextBox.Text, create_Project_form.jeuComboBox.SelectedValue.ToString(), project_path);
                     
-                    form.Close();
+                    create_Project_form.Close();
+
+                    //open the project
+                    await OpenProject(mainForm, project_path);
                 }
                 catch 
                 {

@@ -8,13 +8,11 @@ class project_infos
 
     public static Color main_color = Colors.GhostWhite;
     public static Color foreground_color = Colors.Black;
-
     public static Color editor_background_color = Colors.GhostWhite;
     public static Color editor_lines_color = Colors.GhostWhite;
-
     public static Color log_background_color = Colors.GhostWhite;
+    public static Color tabcontrol_background_color = Color.FromArgb(216,222,233, 0);
     
-
     public project_infos(string name, string game, string path)
     {
         project_infos.name = name;
@@ -29,7 +27,7 @@ class controllerProject
     {
         return project_infos.name;
     }
-
+    
     public static string get_game()
     {
         return project_infos.game;

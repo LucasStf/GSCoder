@@ -1,8 +1,4 @@
-using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using Eto.Drawing;
 using Eto.Forms;
 
 namespace GSCoder.Backend
@@ -16,17 +12,12 @@ namespace GSCoder.Backend
             // Create a new TabPage with the TableLayout as content
             var tabPage = new TabPage()
             {
-                Content = CreateEditor.Create(fileContent),
                 Text = file_name,
-                //Padding = new Padding(10),
-                //BackgroundColor = project_infos.main_color,
+                Content = CreateEditor.Create(fileContent),
             };
 
             ((TabControl)rightPanel.Content).Pages.Add(tabPage);
         }
-
-
-
 
         public static void AddItemToTreeGrid(MainForm form, string file_name, string file_extension, TreeGridItemCollection treeGridItemCollection)
         {
@@ -42,7 +33,10 @@ namespace GSCoder.Backend
         {
             string file_path = project_path + "/" + file_name + ".gsc";
 
-            File.Create(file_path);
+            using (StreamWriter sw = new StreamWriter(File.Create(project_path + "/main.gsc")))
+            {
+                sw.Write("//" + file_name + " file");
+            }
         }
     }
 }

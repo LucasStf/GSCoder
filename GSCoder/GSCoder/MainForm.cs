@@ -8,22 +8,18 @@ namespace GSCoder
     {
         public static Panel rightPanel;
         public static Panel leftPanel;
-
         public static TextArea logArea = new TextArea();
-
         public static TreeGridItemCollection treeGridItemCollection = new TreeGridItemCollection();
 
         public MainForm()
         {
             this.WindowStyle = WindowStyle.Default;
 
-
             BackgroundColor = project_infos.main_color;
             Backend.Project.project.checkup();
 
             Title = "GSCoder";
             MinimumSize = new Size(1300, 800);
-
 
             leftPanel = Layout_left.CreateLeftPanel(this);
             rightPanel = Layout_right.CreateRightPanel();
@@ -52,7 +48,6 @@ namespace GSCoder
                 SplitterWidth = 5,
                 Position = 200,
             };
-
 
             Content = mainSplitter;
             

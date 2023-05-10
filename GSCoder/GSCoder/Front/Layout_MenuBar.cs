@@ -15,15 +15,17 @@ namespace GSCoder.Front
             // create a few commands that can be used for the menu
             var open_project = new Command { MenuText = "Open" };
             
-            open_project.Executed += async (sender, e) =>
+            open_project.Executed += (sender, e) =>
             {
-                await Backend.Project.project.OpenProject(form);
+                //await Backend.Project.project.OpenProject(form);
+                var toto = new Open_project(form);
+                toto.Show();
             };
 
             var create_project = new Command { MenuText = "Create" };
             create_project.Executed += (sender, e) =>
             {
-                var CreateProject = new Create_project();
+                var CreateProject = new Create_project(form);
                 CreateProject.Show();
             };
 

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Eto.Drawing;
 using Eto.Forms;
 
@@ -20,7 +18,6 @@ namespace GSCoder.Backend
                 TextColor = project_infos.foreground_color,
                 BackgroundColor = project_infos.editor_lines_color,
             };
-
 
             // Create a new TableLayout with two columns, one for line numbers and one for the TextArea
             var tableLayout = new TableLayout
@@ -67,7 +64,6 @@ namespace GSCoder.Backend
 
             textArea.TextChanged += (sender, e) =>
             {
-
                 #region Line Numbers
 
                 var lines = Lines.GetLinesNumber(textArea.Text).ToString();
@@ -92,7 +88,6 @@ namespace GSCoder.Backend
                 var token = lexer.GetTokenType(currentText);
 
                 var color = Syntax_Color.GetSyntaxColor(token);
-
 
                 // set the text color to white
                 textArea.TextColor = project_infos.foreground_color;
