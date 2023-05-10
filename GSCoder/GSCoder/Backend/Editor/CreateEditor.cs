@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Eto.Drawing;
 using Eto.Forms;
@@ -102,9 +103,7 @@ namespace GSCoder.Backend
                     // set the cursor position to the end of the currenttext
                     textArea.CaretIndex = currentText.Length + startIndex;
                 }
-                
                 #endregion
-
             };
 
             //event when the user click enter
@@ -118,6 +117,7 @@ namespace GSCoder.Backend
 
                     foreach (string token in ParsedCode)
                     {
+                        //Console.WriteLine(token);
                         TokensList.Add(lexer.GetToken(token));
                     }
 

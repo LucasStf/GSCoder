@@ -64,7 +64,6 @@ namespace GSCoder.Backend
             PrecacheString,
             PrecacheMaterial,
 
-
             // Modifiers
             Const,
             Extern,
@@ -110,6 +109,7 @@ namespace GSCoder.Backend
             RightBracket,
             LeftBrace,
             RightBrace,
+            NewLine,
 
             // Literals
             IntegerLiteral,
@@ -123,6 +123,7 @@ namespace GSCoder.Backend
             SingleLineComment,
             MultiLineComment,
 
+            // Unknown
             Unknown
         }
 
@@ -201,7 +202,8 @@ namespace GSCoder.Backend
             {"[", Tokens.LeftBracket},
             {"]", Tokens.RightBracket},
             {"{", Tokens.LeftBrace},
-            {"}", Tokens.RightBrace}
+            {"}", Tokens.RightBrace},
+            {"\n", Tokens.NewLine}
         };
 
         private static readonly Dictionary<string, Tokens> Types = new Dictionary<string, Tokens>

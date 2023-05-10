@@ -12,38 +12,49 @@ namespace GSCoder.Backend
 
             List<string> tokens = new List<string>();
 
-            string pattern = @"\b[\w]+\b|[^\s]";
-
-            Regex regex = new Regex(pattern);
-            MatchCollection matches = regex.Matches(code);
-
-            foreach (Match match in matches)
+            string[] lines = code.Split('\n');
+            foreach (string line in lines)
             {
-                tokens.Add(match.Value);
+                string pattern = @"\b[\w]+\b|[^\s]";
+
+                Regex regex = new Regex(pattern);
+                MatchCollection matches = regex.Matches(line);
+
+                foreach (Match match in matches)
+                {
+                    tokens.Add(match.Value);
+                }
+
+                tokens.Add("\n"); // Ajouter une nouvelle ligne à la fin de chaque ligne
             }
 
             return tokens;
         }
+
 
         public static bool CheckFunctionsSyntax(List<lexer.Tokens> tokens)
         {
             bool syntaxError = false;
             int braceCount = 0;
             int parenCount = 0;
+            int line = 0;
 
             for (int i = 0; i < tokens.Count; i++)
             {
-                if (tokens[i] == lexer.Tokens.LeftBrace)
+                if(tokens[i] == lexer.Tokens.NewLine)
+                {
+                    line++;
+                }
+                else if (tokens[i] == lexer.Tokens.LeftBrace)
                 {
                     braceCount++;
                 }
                 else if (tokens[i] == lexer.Tokens.RightBrace)
                 {
-                    braceCount--;
-                    if (braceCount < 0)
+                    if (--braceCount < 0)
                     {
                         syntaxError = true;
-                        utils.WriteToLogArea("Syntax error: unmatched right curly brace at line " + i, true);
+                        utils.WriteToLogArea($"Syntax error: unmatched right curly brace at line {line}", true);
                         break;
                     }
                 }
@@ -53,11 +64,10 @@ namespace GSCoder.Backend
                 }
                 else if (tokens[i] == lexer.Tokens.RightParenthesis)
                 {
-                    parenCount--;
-                    if (parenCount < 0)
+                    if (--parenCount < 0)
                     {
                         syntaxError = true;
-                        utils.WriteToLogArea("Syntax error: unmatched right parenthesis at line " + i, true);
+                        utils.WriteToLogArea($"Syntax error: unmatched right parenthesis at line {line}", true);
                         break;
                     }
                 }
@@ -73,8 +83,7 @@ namespace GSCoder.Backend
                         }
                         else if (tokens[j] == lexer.Tokens.RightParenthesis)
                         {
-                            parenCount--;
-                            if (parenCount == 0)
+                            if (--parenCount == 0)
                             {
                                 i = j;
                                 break;
@@ -85,7 +94,7 @@ namespace GSCoder.Backend
                     if (parenCount != 0)
                     {
                         syntaxError = true;
-                        utils.WriteToLogArea("Syntax error: unmatched left parenthesis at line " + i, true);
+                        utils.WriteToLogArea($"Syntax error: unmatched left parenthesis at line {line}", true);
                         break;
                     }
                 }
@@ -108,6 +117,7 @@ namespace GSCoder.Backend
         public static bool CheckSyntaxErrors(List<lexer.Tokens> tokens)
         {
             bool syntaxError = false;
+            int line = 0;
 
             if(CheckFunctionsSyntax(tokens) == true)
             {
@@ -117,12 +127,17 @@ namespace GSCoder.Backend
             //check the wait syntax
             for (int i = 0; i < tokens.Count; i++)
             {
+                if (tokens[i] == lexer.Tokens.NewLine)
+                {
+                    line++;
+                }
+
                 //wait
                 if (tokens[i] == lexer.Tokens.Wait)
                 {
                     if (CheckWaitSyntax(tokens.GetRange(i, 3)) == false)
                     {
-                        utils.WriteToLogArea("Syntax error at line " + i, true);
+                        utils.WriteToLogArea("Syntax error at line " + line, true);
                         syntaxError = true;
                     }
                     else

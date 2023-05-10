@@ -38,8 +38,6 @@ namespace GSCoder.Backend
                 MainForm.logArea.Text += text + "\n";
             }
         }
-
-
         public static string code = @"/*
                         Thanks to use the LTMT_Studio
                         LTMT_Studio :: The Best Open Source GSC IDE!

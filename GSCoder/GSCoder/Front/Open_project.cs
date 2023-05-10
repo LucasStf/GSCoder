@@ -72,7 +72,6 @@ namespace GSCoder.Front
 
             // add layout to the form
             Content = layout;
-
         }
     }
 }
