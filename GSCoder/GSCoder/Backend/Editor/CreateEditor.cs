@@ -18,7 +18,7 @@ namespace GSCoder.Backend
             var label = new Label
             { 
                 TextColor = project_infos.foreground_color,
-                BackgroundColor = project_infos.main_color,
+                BackgroundColor = project_infos.editor_lines_color,
             };
 
 
@@ -48,7 +48,7 @@ namespace GSCoder.Backend
                 //ColumnWidths = { 50, -1 }
                 //Padding = new Padding(10),
                 Spacing = new Size(10, 10),
-                BackgroundColor = project_infos.main_color,
+                BackgroundColor = project_infos.editor_lines_color,
             };
 
             var ScrollableWindow = new Scrollable
@@ -138,7 +138,6 @@ namespace GSCoder.Backend
                         {
                             utils.WriteToLogArea("No syntax errors found", false);
                         }
-                        MessageBox.Show("Syntax checked !");
                     }
                     else
                     {

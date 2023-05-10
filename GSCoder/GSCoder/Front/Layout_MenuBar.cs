@@ -38,6 +38,12 @@ namespace GSCoder.Front
 
             #endregion
 
+            var whiteTheme = new Command { MenuText = "White Theme" };
+            whiteTheme.Executed += (sender, e) => theme.SetWhiteTheme();
+
+            var draculaTheme = new Command { MenuText = "Dracula Theme" };
+            draculaTheme.Executed += (sender, e) => theme.SetDraculaTheme();
+
             var quitCommand = new Command { MenuText = "Quit", Shortcut = Application.Instance.CommonModifier | Keys.Q };
             quitCommand.Executed += (sender, e) => Application.Instance.Quit();
 
@@ -53,7 +59,7 @@ namespace GSCoder.Front
 					// File submenu
 					new SubMenuItem { Text = "&Project", Items = { open_project, create_project, save_project } },
                     new SubMenuItem { Text = "&File", Items = { save_file, rename_file, create_file, remove_file } },
-                    new SubMenuItem { Text = "&Settings", Items = {  } },
+                    new SubMenuItem { Text = "&Settings", Items = { whiteTheme, draculaTheme } },
                     new SubMenuItem { Text = "&About", Items = { aboutCommand } }
                 },
             };

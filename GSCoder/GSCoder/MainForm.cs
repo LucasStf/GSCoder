@@ -18,7 +18,7 @@ namespace GSCoder
             this.WindowStyle = WindowStyle.Default;
 
 
-            BackgroundColor = Color.FromArgb(68, 71, 90);
+            BackgroundColor = project_infos.main_color;
             Backend.Project.project.checkup();
 
             Title = "GSCoder";
@@ -40,7 +40,7 @@ namespace GSCoder
             };
 
             var logPanel = CreateLogPanel.CreateLogArea();
-            logArea.BackgroundColor = project_infos.main_color;
+            logArea.BackgroundColor = project_infos.log_background_color;
             logArea.TextColor = project_infos.foreground_color;
 
             var mainSplitter = new Splitter

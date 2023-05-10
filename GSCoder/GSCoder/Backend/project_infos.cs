@@ -6,8 +6,13 @@ class project_infos
     public static string game;
     public static string path;
 
-    public static Color main_color = Color.FromArgb(56, 58, 75, 200);
-    public static Color foreground_color = Color.FromArgb(248, 248, 242);
+    public static Color main_color = Colors.GhostWhite;
+    public static Color foreground_color = Colors.Black;
+
+    public static Color editor_background_color = Colors.GhostWhite;
+    public static Color editor_lines_color = Colors.GhostWhite;
+
+    public static Color log_background_color = Colors.GhostWhite;
     
 
     public project_infos(string name, string game, string path)
@@ -48,5 +53,26 @@ class controllerProject
     public static void set_path(string path)
     {
         project_infos.path = path;
+    }
+}
+
+class theme
+{
+    public static void SetWhiteTheme()
+    {
+        project_infos.main_color = Color.FromArgb(248, 248, 242);
+        project_infos.foreground_color = Color.FromArgb(56, 58, 75, 200);
+        project_infos.editor_background_color = Color.FromArgb(248, 248, 242);
+        project_infos.editor_lines_color = Color.FromArgb(56, 58, 75, 200);
+        project_infos.log_background_color = Color.FromArgb(248, 248, 242);
+    }
+
+    public static void SetDraculaTheme()
+    {
+        project_infos.main_color = Color.FromArgb(68, 71, 90);
+        project_infos.foreground_color = Color.FromArgb(248, 248, 242);
+        project_infos.editor_background_color = Color.FromArgb(68, 71, 90);
+        project_infos.editor_lines_color = Color.FromArgb(56, 58, 75, 200);
+        project_infos.log_background_color = Color.FromArgb(68, 71, 90);
     }
 }
