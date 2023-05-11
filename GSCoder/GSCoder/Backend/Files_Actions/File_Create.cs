@@ -33,7 +33,7 @@ namespace GSCoder.Backend
         {
             string file_path = project_path + "/" + file_name + ".gsc";
 
-            using (StreamWriter sw = new StreamWriter(File.Create(project_path + "/main.gsc")))
+            using (StreamWriter sw = new StreamWriter(File.Create(project_path + "/" + file_name + ".gsc")))
             {
                 sw.Write("//" + file_name + " file");
             }

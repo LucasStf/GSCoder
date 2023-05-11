@@ -69,7 +69,7 @@ namespace GSCoder.Backend
                 case var x when Comments.ContainsKey(x):
                     return lexer.TokenTypes.Comment; 
                 //if the token contains an ; at the end
-                case var x when Operators.ContainsKey(x) || Operators.ContainsKey(x) && x.EndsWith(";"):
+                case var x when (Operators.ContainsKey(x)) || (Operators.ContainsKey(x) && x.EndsWith(";")):
                     return lexer.TokenTypes.Operator;  
                 //if the token contains an " at the start and end
                 case var x when x.StartsWith("\"") && x.EndsWith("\""):

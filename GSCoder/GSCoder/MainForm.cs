@@ -1,8 +1,6 @@
-using Eto;
 using Eto.Drawing;
 using Eto.Forms;
 using GSCoder.Front;
-using System.ComponentModel.DataAnnotations;
 
 namespace GSCoder
 {
