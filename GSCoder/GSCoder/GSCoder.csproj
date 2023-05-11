@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Directories.Net" Version="1.0.0" />
+    <PackageReference Include="Eto.CodeEditor" Version="0.3.0" />
     <PackageReference Include="Eto.Forms" Version="2.7.1" />
   </ItemGroup>
 

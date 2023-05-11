@@ -12,23 +12,14 @@ namespace GSCoder.Backend
                 case lexer.TokenTypes.Comment:
                     return Colors.Green;
 
-                case lexer.TokenTypes.Punctuation:
-                    return Colors.Blue;
-
                 case lexer.TokenTypes.Keyword:
-                    return Colors.Red;
-
-                case lexer.TokenTypes.Modifier:
-                    return Colors.Purple;
+                    return Colors.RoyalBlue;
 
                 case lexer.TokenTypes.Operator:
-                    return Colors.Yellow;
-
-                case lexer.TokenTypes.Type:
-                    return Colors.Orange;
+                    return Colors.DarkGreen;
 
                 case lexer.TokenTypes.String:
-                    return Colors.Brown;
+                    return Colors.DarkOrange;
 
                 case lexer.TokenTypes.Integer:
                     return Colors.Gray;
@@ -44,10 +35,26 @@ namespace GSCoder.Backend
             }
         }
 
-        public static void SetSyntaxColorOpenProject(CustomRichTextArea textArea)
+        public static void SetColorCurrentText(string text, RichTextArea textArea, int startIndex)
+        {
+            var token = Color_Lexer.GetTokenTypesSyntaxColor(text);
+            if(token != lexer.TokenTypes.Unknown)
+            {
+                //set the selection on the current text
+                textArea.Selection = new Range<int>(startIndex, startIndex + text.Length -1);
+
+                textArea.SelectionForeground = GetSyntaxColor(token);
+
+                // set the cursor position to the end of the currenttext
+                textArea.CaretIndex = text.Length + startIndex;
+            }
+        }
+
+        public static void SetSyntaxColorOpenProject(RichTextArea textArea)
         {
             var originalText = textArea.Text;
             var parsedText = parser.GetParsedCode(originalText);
+            bool isValid = false;
 
             int selectionStart = 0;
 
@@ -55,8 +62,23 @@ namespace GSCoder.Backend
             {
                 var tokenType = Color_Lexer.GetTokenTypesSyntaxColor(token);
 
+                //if token is a string
+                if (tokenType == lexer.TokenTypes.String)
+                {
+                    isValid = true;
+                }
+                //if token is an operator
+                if(tokenType == lexer.TokenTypes.Operator)
+                {
+                    isValid = true;
+                }
                 //if the token is a keyword
                 if (tokenType == lexer.TokenTypes.Keyword)
+                {
+                    isValid = true;
+                }
+
+                if(isValid)
                 {
                     var index = originalText.IndexOf(token, selectionStart);
 
@@ -70,6 +92,8 @@ namespace GSCoder.Backend
                         selectionStart = index + token.Length;
                     }
                 }
+
+                isValid = false;
             }
 
             //set the caret to the start of the text

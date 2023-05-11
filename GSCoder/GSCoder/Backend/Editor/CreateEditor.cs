@@ -9,8 +9,9 @@ namespace GSCoder.Backend
     {
         public static Scrollable Create(string fileContent)
        {
-            var textArea = new CustomRichTextArea
+            var textArea = new RichTextArea
             {
+                ID = "TextArea",
                 Text = fileContent,
             };
 
@@ -86,23 +87,8 @@ namespace GSCoder.Backend
                 // Extraire le texte entre la position trouvée et la position actuelle du curseur
                 string currentText = textArea.Text.Substring(startIndex, textArea.CaretIndex - startIndex);
 
-                var token = lexer.GetTokenType(currentText);
+                Syntax_Color.SetColorCurrentText(currentText, textArea, startIndex);
 
-                var color = Syntax_Color.GetSyntaxColor(token);
-
-                // set the text color to white
-                textArea.TextColor = project_infos.foreground_color;
-
-                if(token != lexer.TokenTypes.Unknown)
-                {
-                    //set the selection on the current text
-                    textArea.Selection = new Range<int>(startIndex, startIndex + currentText.Length -1);
-
-                    textArea.SelectionForeground = color;
-
-                    // set the cursor position to the end of the currenttext
-                    textArea.CaretIndex = currentText.Length + startIndex;
-                }
                 #endregion
             };
 
@@ -147,7 +133,7 @@ namespace GSCoder.Backend
                 }
             };
     
-              return ScrollableWindow;
+            return ScrollableWindow;
        }
     }
 }

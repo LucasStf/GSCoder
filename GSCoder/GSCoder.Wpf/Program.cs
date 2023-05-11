@@ -1,5 +1,6 @@
 ﻿using Eto.Forms;
 using System;
+using Eto.CodeEditor;
 
 namespace GSCoder.Wpf
 {

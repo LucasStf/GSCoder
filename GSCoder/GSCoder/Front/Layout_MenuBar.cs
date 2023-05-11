@@ -1,9 +1,5 @@
 ﻿using Eto.Drawing;
 using Eto.Forms;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GSCoder.Front
 {
@@ -18,8 +14,8 @@ namespace GSCoder.Front
             open_project.Executed += (sender, e) =>
             {
                 //await Backend.Project.project.OpenProject(form);
-                var toto = new Open_project(form);
-                toto.Show();
+                var openProject = new Open_project(form);
+                openProject.Show();
             };
 
             var create_project = new Command { MenuText = "Create" };
@@ -41,10 +37,10 @@ namespace GSCoder.Front
             #endregion
 
             var whiteTheme = new Command { MenuText = "White Theme" };
-            whiteTheme.Executed += (sender, e) => theme.SetWhiteTheme();
+            //whiteTheme.Executed += (sender, e) => theme.SetWhiteTheme();
 
             var draculaTheme = new Command { MenuText = "Dracula Theme" };
-            draculaTheme.Executed += (sender, e) => theme.SetDraculaTheme();
+            //draculaTheme.Executed += (sender, e) => theme.SetDraculaTheme();
 
             var quitCommand = new Command { MenuText = "Quit", Shortcut = Application.Instance.CommonModifier | Keys.Q };
             quitCommand.Executed += (sender, e) => Application.Instance.Quit();
@@ -65,7 +61,9 @@ namespace GSCoder.Front
                     new SubMenuItem { Text = "&About", Items = { aboutCommand } }
                 },
             };
-            
+
+            //menu.Style = "background-color: #ff0000;";
+
             #endregion
             return menu;
         }

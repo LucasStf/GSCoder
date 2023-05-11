@@ -24,14 +24,14 @@ namespace GSCoder.Backend
                     if (tab.Text == file_name)
                     {
                         //get the text in the tab page
-                        var textArea = tab.FindChild<CustomRichTextArea>("CustomRichTextArea");
+                        var textArea = tab.FindChild<RichTextArea>("TextArea");
                         if (textArea != null)
                         {
                             text = textArea.Text;
                         }
                         else
                         {
-                            throw new Exception("CustomRichTextArea not found in tab page");
+                            throw new Exception("TextArea not found in tab page");
                         }
                     }
                 }

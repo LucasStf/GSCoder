@@ -32,7 +32,7 @@ namespace GSCoder.Front
                 //create the file
                 try
                 {
-                    Backend.File_Create.CreateFile(controllerProject.get_path(), FileName.Text);
+                    Backend.File_Create.CreateFile(project_infos.path, FileName.Text);
                     Backend.File_Create.AddPageTabcontrol(mainForm, FileName.Text, "//" + FileName.Text + " file");
                     Backend.File_Create.AddItemToTreeGrid(mainForm, FileName.Text, ".gsc", MainForm.treeGridItemCollection);
                     this.Close();

@@ -32,7 +32,7 @@ namespace GSCoder.Front
             };
             deleteButton.Click += (sender, e) =>
             {
-                Backend.File_Delete.DeleteFile(file_name, controllerProject.get_path());
+                Backend.File_Delete.DeleteFile(file_name, project_infos.path);
                 Backend.File_Delete.DeleteItemTreeGridView(form, file_name);
                 Backend.File_Delete.DeleteFileTabPage(form, file_name);
                 Close();

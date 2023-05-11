@@ -94,6 +94,8 @@ namespace GSCoder.Backend
             BitwiseNot,
             ShiftLeft,
             ShiftRight,
+            True,
+            False,
 
             // Punctuation
             Semicolon,
@@ -185,7 +187,9 @@ namespace GSCoder.Backend
             {"^", Tokens.BitwiseXor},
             {"~", Tokens.BitwiseNot},
             {"<<", Tokens.ShiftLeft},
-            {">>", Tokens.ShiftRight}
+            {">>", Tokens.ShiftRight},
+            {"true", Tokens.True},
+            {"false", Tokens.False},
         };
 
         private static readonly Dictionary<string, Tokens> Punctuation = new Dictionary<string, Tokens>

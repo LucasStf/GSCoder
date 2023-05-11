@@ -48,7 +48,7 @@ namespace GSCoder.Front
                         Text = "Save File",
                         Command = new Command((sender2, e2) =>
                         {
-                            Backend.File_Save.SaveFile(form, controllerProject.get_path(), Backend.utils.GetSelectedItemTreeGridView(form));
+                            Backend.File_Save.SaveFile(form, project_infos.path, Backend.utils.GetSelectedItemTreeGridView(form));
                         })
                     });
 

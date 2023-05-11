@@ -31,7 +31,6 @@ namespace GSCoder.Backend
             return tokens;
         }
 
-
         public static bool CheckFunctionsSyntax(List<lexer.Tokens> tokens)
         {
             bool syntaxError = false;
@@ -103,12 +102,12 @@ namespace GSCoder.Backend
             if (braceCount != 0)
             {
                 syntaxError = true;
-                utils.WriteToLogArea("Syntax error: unmatched left curly brace", true);
+                //utils.WriteToLogArea("Syntax error: unmatched left curly brace", true);
             }
             else if (parenCount != 0)
             {
                 syntaxError = true;
-                utils.WriteToLogArea("Syntax error: unmatched left parenthesis", true);
+                //utils.WriteToLogArea("Syntax error: unmatched left parenthesis", true);
             }
 
             return syntaxError;
