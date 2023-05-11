@@ -26,7 +26,7 @@ namespace GSCoder.Backend
         public static void WriteToLogArea(string text, bool isError)
         {
             //clear the log area
-            //MainForm.logArea.Text = "";
+            MainForm.logArea.Text = "";
             if (isError)
             {
                 MainForm.logArea.TextColor = Colors.Red;

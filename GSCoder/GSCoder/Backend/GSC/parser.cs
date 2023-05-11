@@ -40,7 +40,7 @@ namespace GSCoder.Backend
 
             for (int i = 0; i < tokens.Count; i++)
             {
-                if(tokens[i] == lexer.Tokens.NewLine)
+                if (tokens[i] == lexer.Tokens.NewLine)
                 {
                     line++;
                 }
@@ -53,7 +53,7 @@ namespace GSCoder.Backend
                     if (--braceCount < 0)
                     {
                         syntaxError = true;
-                        utils.WriteToLogArea($"Syntax error: unmatched right curly brace at line {line}", true);
+                        utils.WriteToLogArea($"Syntax error: unmatched right curly brace at line {line + 1}", true);
                         break;
                     }
                 }
@@ -66,7 +66,7 @@ namespace GSCoder.Backend
                     if (--parenCount < 0)
                     {
                         syntaxError = true;
-                        utils.WriteToLogArea($"Syntax error: unmatched right parenthesis at line {line}", true);
+                        utils.WriteToLogArea($"Syntax error: unmatched right parenthesis at line {line + 1}", true);
                         break;
                     }
                 }
@@ -93,7 +93,7 @@ namespace GSCoder.Backend
                     if (parenCount != 0)
                     {
                         syntaxError = true;
-                        utils.WriteToLogArea($"Syntax error: unmatched left parenthesis at line {line}", true);
+                        utils.WriteToLogArea($"Syntax error: unmatched left parenthesis at line {line + 1}", true);
                         break;
                     }
                 }
@@ -102,12 +102,7 @@ namespace GSCoder.Backend
             if (braceCount != 0)
             {
                 syntaxError = true;
-                //utils.WriteToLogArea("Syntax error: unmatched left curly brace", true);
-            }
-            else if (parenCount != 0)
-            {
-                syntaxError = true;
-                //utils.WriteToLogArea("Syntax error: unmatched left parenthesis", true);
+                utils.WriteToLogArea($"Syntax error: unmatched left curly brace at line {line + 1}", true);
             }
 
             return syntaxError;
@@ -116,12 +111,24 @@ namespace GSCoder.Backend
         public static bool CheckSyntaxErrors(List<lexer.Tokens> tokens)
         {
             bool syntaxError = false;
-            int line = 0;
 
-            if(CheckFunctionsSyntax(tokens) == true)
+            if(CheckFunctionsSyntax(tokens))
             {
                 syntaxError = true;
             }
+            else if(CheckWaitSyntax(tokens))
+            {
+                syntaxError = true;
+            }
+            
+            return syntaxError;
+        }
+
+        //check the wait syntax
+        public static bool CheckWaitSyntax(List<lexer.Tokens> tokens)
+        {
+            int line = 0;
+            bool syntaxError = false;
 
             //check the wait syntax
             for (int i = 0; i < tokens.Count; i++)
@@ -134,10 +141,11 @@ namespace GSCoder.Backend
                 //wait
                 if (tokens[i] == lexer.Tokens.Wait)
                 {
-                    if (CheckWaitSyntax(tokens.GetRange(i, 3)) == false)
+                    if (tokens[i] != lexer.Tokens.Wait || tokens[i + 1] != lexer.Tokens.IntegerLiteral || tokens[i + 2] != lexer.Tokens.Semicolon)
                     {
-                        utils.WriteToLogArea("Syntax error at line " + line, true);
+                        utils.WriteToLogArea("Syntax error at line " + (line + 1), true);
                         syntaxError = true;
+                        break;
                     }
                     else
                     {
@@ -145,27 +153,8 @@ namespace GSCoder.Backend
                     }
                 }
             }
+
             return syntaxError;
-        }
-
-        //check the wait syntax
-        public static bool CheckWaitSyntax(List<lexer.Tokens> tokens)
-        {
-            /*foreach (lexer.Tokens token in tokens)
-            {
-                Console.WriteLine(token);
-            }*/
-
-            if (tokens[0] != lexer.Tokens.Wait)
-                return false;
-
-            if (tokens[1] != lexer.Tokens.IntegerLiteral)
-                return false;
-
-            if(tokens[2] != lexer.Tokens.Semicolon)
-                return false;
-
-            return true;
         }
     }
 }

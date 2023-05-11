@@ -115,7 +115,7 @@ namespace GSCoder.Backend
                     if (TokensList.Count > 0)
                     {
                         bool syntaxErrors = parser.CheckSyntaxErrors(TokensList);
-                        if (syntaxErrors == false)
+                        if (syntaxErrors != true)
                         {
                             utils.WriteToLogArea("No syntax errors found", false);
                         }
