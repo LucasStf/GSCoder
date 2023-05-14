@@ -31,6 +31,74 @@ namespace GSCoder.Backend
             return tokens;
         }
 
+        public static bool CheckSyntaxErrors(List<lexer.Tokens> tokens)
+        {
+            bool syntaxError = false;
+
+            if(CheckFunctionsSyntax(tokens))
+            {
+                syntaxError = true;
+            }
+            else if(CheckWaitSyntax(tokens))
+            {
+                syntaxError = true;
+            }
+            else if(CheckVariablesSyntax(tokens))
+            {
+                syntaxError = true;
+            }
+            
+            return syntaxError;
+        }
+
+        //check the variables syntax
+        public static bool CheckVariablesSyntax(List<lexer.Tokens> tokens)
+        {
+            int line = 0;
+            bool syntaxError = false;
+
+            //check the variables syntax
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                if (tokens[i] == lexer.Tokens.NewLine)
+                {
+                    line++;
+                }
+
+                //int
+                if (tokens[i] == lexer.Tokens.Int)
+                {
+                    if (tokens[i] != lexer.Tokens.Int || tokens[i + 1] != lexer.Tokens.Identifier || tokens[i + 2] != lexer.Tokens.Semicolon)
+                    {
+                        utils.WriteToLogArea("int syntax error at line " + (line + 1), true);
+                        syntaxError = true;
+                        break;
+                    }
+                    else
+                    {
+                        i += 3;
+                    }
+                }
+
+                //string
+                if (tokens[i] == lexer.Tokens.String)
+                {
+                    if (tokens[i] != lexer.Tokens.String || tokens[i + 1] != lexer.Tokens.Equal || tokens[i + 2] != lexer.Tokens.Semicolon)
+                    {
+                        utils.WriteToLogArea("string syntax error at line " + (line + 1), true);
+                        syntaxError = true;
+                        break;
+                    }
+                    else
+                    {
+                        i += 3;
+                    }
+                }
+            }
+
+            return syntaxError;
+        }
+
         public static bool CheckFunctionsSyntax(List<lexer.Tokens> tokens)
         {
             bool syntaxError = false;
@@ -105,22 +173,6 @@ namespace GSCoder.Backend
                 utils.WriteToLogArea($"Syntax error: unmatched left curly brace at line {line + 1}", true);
             }
 
-            return syntaxError;
-        }
-
-        public static bool CheckSyntaxErrors(List<lexer.Tokens> tokens)
-        {
-            bool syntaxError = false;
-
-            if(CheckFunctionsSyntax(tokens))
-            {
-                syntaxError = true;
-            }
-            else if(CheckWaitSyntax(tokens))
-            {
-                syntaxError = true;
-            }
-            
             return syntaxError;
         }
 
