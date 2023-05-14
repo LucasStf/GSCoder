@@ -1,5 +1,6 @@
 ﻿using Eto.Drawing;
 using Eto.Forms;
+using GSCoder.Backend;
 
 namespace GSCoder.Front
 {
@@ -33,6 +34,17 @@ namespace GSCoder.Front
             var rename_file = new Command { MenuText = "Rename" };
             var create_file = new Command { MenuText = "Create" };
             var remove_file = new Command { MenuText = "Remove" };
+            var check_syntax = new Command { MenuText = "Check file Syntax" };
+
+            check_syntax.Executed += (sender, e) =>
+            {
+                var textArea = (RichTextArea)form.FindChild("TextArea");
+                bool syntaxErrors = parser.CheckSyntaxErrors(textArea.Text);
+                if (syntaxErrors != true)
+                {
+                    utils.WriteToLogArea("No syntax errors found", false);
+                }
+            };
 
             #endregion
 
@@ -56,7 +68,7 @@ namespace GSCoder.Front
                 {
 					// File submenu
 					new SubMenuItem { Text = "&Project", Items = { open_project, create_project, save_project } },
-                    new SubMenuItem { Text = "&File", Items = { save_file, rename_file, create_file, remove_file } },
+                    new SubMenuItem { Text = "&File", Items = { save_file, rename_file, create_file, remove_file, check_syntax } },
                     new SubMenuItem { Text = "&Settings", Items = { whiteTheme, draculaTheme } },
                     new SubMenuItem { Text = "&About", Items = { aboutCommand } }
                 },

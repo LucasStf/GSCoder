@@ -31,19 +31,28 @@ namespace GSCoder.Backend
             return tokens;
         }
 
-        public static bool CheckSyntaxErrors(List<lexer.Tokens> tokens)
+        public static bool CheckSyntaxErrors(string code)
         {
+            List<string> ParsedCode = GetParsedCode(code);
+            List<lexer.Tokens> TokensList = new List<lexer.Tokens>();
+
+            foreach (string token in ParsedCode)
+            {
+                //Console.WriteLine(token);
+                TokensList.Add(lexer.GetToken(token));
+            }
+
             bool syntaxError = false;
 
-            if(CheckFunctionsSyntax(tokens))
+            if(CheckFunctionsSyntax(TokensList))
             {
                 syntaxError = true;
             }
-            else if(CheckWaitSyntax(tokens))
+            else if(CheckWaitSyntax(TokensList))
             {
                 syntaxError = true;
             }
-            else if(CheckVariablesSyntax(tokens))
+            else if(CheckVariablesSyntax(TokensList))
             {
                 syntaxError = true;
             }

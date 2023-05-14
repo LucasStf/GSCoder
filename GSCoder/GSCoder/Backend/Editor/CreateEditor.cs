@@ -98,31 +98,10 @@ namespace GSCoder.Backend
                 //if shift + enter is pressed
                 if (e.Key == Keys.Q && e.Modifiers == Keys.Control)
                 {
-                    List<string> ParsedCode = parser.GetParsedCode(textArea.Text);
-                    List<lexer.Tokens> TokensList = new List<lexer.Tokens>();
-
-                    foreach (string token in ParsedCode)
+                    bool syntaxErrors = parser.CheckSyntaxErrors(textArea.Text);
+                    if (syntaxErrors != true)
                     {
-                        //Console.WriteLine(token);
-                        TokensList.Add(lexer.GetToken(token));
-                    }
-
-                    /*foreach (lexer.Tokens token in TokensList)
-                    {
-                        MessageBox.Show(token.ToString());
-                    }*/
-
-                    if (TokensList.Count > 0)
-                    {
-                        bool syntaxErrors = parser.CheckSyntaxErrors(TokensList);
-                        if (syntaxErrors != true)
-                        {
-                            utils.WriteToLogArea("No syntax errors found", false);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("No tokens...");
+                        utils.WriteToLogArea("No syntax errors found", false);
                     }
                 }
 
