@@ -36,8 +36,8 @@ namespace GSCoder
             };
 
             var logPanel = CreateLogPanel.CreateLogArea();
-            logArea.BackgroundColor = project_infos.log_background_color;
-            logArea.TextColor = project_infos.foreground_color;
+            //logArea.BackgroundColor = project_infos.log_background_color;
+            //logArea.TextColor = project_infos.foreground_color;
 
             var mainSplitter = new Splitter
             {

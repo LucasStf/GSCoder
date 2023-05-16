@@ -17,8 +17,8 @@ namespace GSCoder.Backend
 
             var label = new Label
             { 
-                TextColor = project_infos.foreground_color,
-                BackgroundColor = project_infos.editor_lines_color,
+                //TextColor = project_infos.foreground_color,
+                //BackgroundColor = project_infos.editor_lines_color,
             };
 
             // Create a new TableLayout with two columns, one for line numbers and one for the TextArea
@@ -47,7 +47,7 @@ namespace GSCoder.Backend
                 //ColumnWidths = { 50, -1 }
                 //Padding = new Padding(10),
                 Spacing = new Size(10, 10),
-                BackgroundColor = project_infos.editor_lines_color,
+                //BackgroundColor = project_infos.editor_lines_color,
             };
 
             var ScrollableWindow = new Scrollable
@@ -81,13 +81,15 @@ namespace GSCoder.Backend
 
                 #region Syntax Color
             
-                // Trouver la dernière occurrence d'un espace ou d'un retour à la ligne avant la position du curseur
-                int startIndex = textArea.Text.LastIndexOfAny(new char[] { ' ', '\n', '\r' }, textArea.CaretIndex - 1) + 1;
+                if (textArea.Text.Length > 0)
+                {
+                    int startIndex = textArea.Text.LastIndexOfAny(new char[] { ' ', '\n', '\r' }, textArea.CaretIndex - 1) + 1;
 
-                // Extraire le texte entre la position trouvée et la position actuelle du curseur
-                string currentText = textArea.Text.Substring(startIndex, textArea.CaretIndex - startIndex);
+                    // Extraire le texte entre la position trouvée et la position actuelle du curseur
+                    string currentText = textArea.Text.Substring(startIndex, textArea.CaretIndex - startIndex);
 
-                Syntax_Color.SetColorCurrentText(currentText, textArea, startIndex);
+                    Syntax_Color.SetColorCurrentText(currentText, textArea, startIndex);
+                }
 
                 #endregion
             };

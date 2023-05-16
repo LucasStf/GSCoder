@@ -35,6 +35,7 @@ namespace GSCoder.Front
             var create_file = new Command { MenuText = "Create" };
             var remove_file = new Command { MenuText = "Remove" };
             var check_syntax = new Command { MenuText = "Check file Syntax" };
+            var compile_file = new Command { MenuText = "Compile to GSC" };
 
             check_syntax.Executed += (sender, e) =>
             {
@@ -44,6 +45,17 @@ namespace GSCoder.Front
                 {
                     utils.WriteToLogArea("No syntax errors found", false);
                 }
+            };
+
+            compile_file.Executed += (sender, e) =>
+            {
+                //var textArea = (RichTextArea)form.FindChild("TextArea");
+                //bool syntaxErrors = parser.CheckSyntaxErrors(textArea.Text);
+                //if (syntaxErrors != true)
+                //{
+                    //call the compiler
+                    compiler.Compile();
+                //}
             };
 
             #endregion
@@ -68,7 +80,7 @@ namespace GSCoder.Front
                 {
 					// File submenu
 					new SubMenuItem { Text = "&Project", Items = { open_project, create_project, save_project } },
-                    new SubMenuItem { Text = "&File", Items = { save_file, rename_file, create_file, remove_file, check_syntax } },
+                    new SubMenuItem { Text = "&File", Items = { save_file, rename_file, create_file, remove_file, check_syntax, compile_file } },
                     new SubMenuItem { Text = "&Settings", Items = { whiteTheme, draculaTheme } },
                     new SubMenuItem { Text = "&About", Items = { aboutCommand } }
                 },
