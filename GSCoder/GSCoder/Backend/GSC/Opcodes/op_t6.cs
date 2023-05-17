@@ -4,7 +4,7 @@ namespace GSCoder.Backend
 {
     class op_t6
     {
-        public readonly Dictionary<uint, opcodes.opcode> codes = new Dictionary<uint, opcodes.opcode>
+        public static readonly Dictionary<uint, opcodes.opcode> codes = new Dictionary<uint, opcodes.opcode>
         {
             {0x00, opcodes.opcode.OP_End},
             {0x01, opcodes.opcode.OP_Return},

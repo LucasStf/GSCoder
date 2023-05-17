@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace GSCoder.Backend
@@ -216,6 +218,129 @@ namespace GSCoder.Backend
             }
 
             return syntaxError;
+        }
+
+        //function to creates AST from the tokens
+        public static ASTNode CreateAST_Mock(List<lexer.Tokens> tokens)
+        {
+            ASTNode root = new ASTNode(NodeType.Program);
+
+            ASTNode include1 = new ASTNode(NodeType.IncludeDirective);
+            include1.Value = "maps\\mp\\gametypes\\_hud_util";
+            root.Children.Add(include1);
+
+            ASTNode include2 = new ASTNode(NodeType.IncludeDirective);
+            include2.Value = "maps\\mp\\gametypes\\_rank";
+            root.Children.Add(include2);
+
+            ASTNode initFunction = new ASTNode(NodeType.FunctionDeclaration);
+            initFunction.Value = "init";
+            root.Children.Add(initFunction);
+
+            ASTNode initBlock = new ASTNode(NodeType.Block);
+            initFunction.Children.Add(initBlock);
+
+            ASTNode thread = new ASTNode(NodeType.Thread);
+            initBlock.Children.Add(thread);
+
+            ASTNode threadFunction = new ASTNode(NodeType.FunctionCall);
+            threadFunction.Value = "onplayerconnect";
+            thread.Children.Add(threadFunction);
+
+            ASTNode onplayerconnectFunction = new ASTNode(NodeType.FunctionDeclaration);
+            onplayerconnectFunction.Value = "onplayerconnect";
+            root.Children.Add(onplayerconnectFunction);
+
+            ASTNode onplayerconnectBlock = new ASTNode(NodeType.Block);
+            onplayerconnectFunction.Children.Add(onplayerconnectBlock);
+
+            ASTNode forLoop = new ASTNode(NodeType.ForLoop);
+            onplayerconnectBlock.Children.Add(forLoop);
+
+            ASTNode waittill = new ASTNode(NodeType.WaitTill);
+            waittill.Value = "connecting";
+            ASTNode waittillArgument = new ASTNode(NodeType.Identifier);
+            waittillArgument.Value = "player";
+            waittill.AddArgument(waittillArgument);
+            forLoop.Children.Add(waittill);
+
+            ASTNode playerThread = new ASTNode(NodeType.Thread);
+            forLoop.Children.Add(playerThread);
+
+            ASTNode threadFunction2 = new ASTNode(NodeType.FunctionCall);
+            threadFunction2.Value = "onplayerspawned";
+            playerThread.Children.Add(threadFunction2);
+
+            ASTNode onplayerspawnedFunction = new ASTNode(NodeType.FunctionDeclaration);
+            onplayerspawnedFunction.Value = "onplayerspawned";
+            root.Children.Add(onplayerspawnedFunction);
+
+            ASTNode onplayerspawnedBlock = new ASTNode(NodeType.Block);
+            onplayerspawnedFunction.Children.Add(onplayerspawnedBlock);
+
+            ASTNode endon1 = new ASTNode(NodeType.EndOn);
+            endon1.Value = "disconnect";
+            onplayerspawnedBlock.Children.Add(endon1);
+
+            ASTNode endon2 = new ASTNode(NodeType.EndOn);
+            endon2.Value = "game_ended";
+            onplayerspawnedBlock.Children.Add(endon2);
+
+            ASTNode forLoop2 = new ASTNode(NodeType.ForLoop);
+            onplayerspawnedBlock.Children.Add(forLoop2);
+
+            ASTNode waittill2 = new ASTNode(NodeType.WaitTill);
+            waittill2.Value = "spawned_player";
+            forLoop2.Children.Add(waittill2);
+
+            ASTNode threadFunction3 = new ASTNode(NodeType.FunctionCall);
+            threadFunction3.Value = "myFunction";
+            forLoop2.Children.Add(threadFunction3);
+
+            ASTNode myFunction = new ASTNode(NodeType.FunctionDeclaration);
+            myFunction.Value = "myFunction";
+            root.Children.Add(myFunction);
+
+            ASTNode myFunctionBlock = new ASTNode(NodeType.Block);
+            myFunction.Children.Add(myFunctionBlock);
+
+            ASTNode iprintlnbold = new ASTNode(NodeType.FunctionCall);
+            iprintlnbold.Value = "self iprintlnbold";
+            ASTNode iprintlnboldArgument = new ASTNode(NodeType.String);
+            iprintlnboldArgument.Value = "^2My First Function!";
+            iprintlnbold.AddArgument(iprintlnboldArgument);
+            myFunctionBlock.Children.Add(iprintlnbold);
+
+            return root;
+        }
+
+        public static uint GetOpcodeValue(opcodes.opcode opcode)
+        {
+            uint opcodeValue = op_t6.codes.FirstOrDefault(x => x.Value == opcode).Key;
+            return opcodeValue;
+        }
+
+        public static List<byte> GenerateBytecodeFromAST(ASTNode ast)
+        {
+            List<byte> bytecode = new List<byte>();
+
+            foreach (ASTNode childNode in ast.Children)
+            {
+                switch (childNode.Type)
+                {
+                    case NodeType.FunctionCall:
+                        //get the uint value of the opcode from the dictionary
+                        var op_byte = GetOpcodeValue(opcodes.opcode.OP_ScriptFunctionCall);
+                        bytecode.Add((byte)op_byte);
+                        break;
+                    //default:
+                        // Handle unsupported node types or parsing errors
+                        //Console.WriteLine($"Unsupported node type or parsing error: {childNode.Type}");
+                        //throw new Exception($"Unsupported node type or parsing error: {childNode.Type}");
+                }
+            }
+
+            return bytecode;
         }
     }
 }
