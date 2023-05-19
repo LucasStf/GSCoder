@@ -71,30 +71,15 @@ namespace GSCoder.Backend
             //check the variables syntax
             for (int i = 0; i < tokens.Count; i++)
             {
-                if (tokens[i] == lexer.Tokens.NewLine)
+                if (tokens[i] == lexer.Tokens.NEWLINE)
                 {
                     line++;
                 }
 
-                //int
-                if (tokens[i] == lexer.Tokens.Int)
-                {
-                    if (tokens[i] != lexer.Tokens.Int || tokens[i + 1] != lexer.Tokens.Identifier || tokens[i + 2] != lexer.Tokens.Semicolon)
-                    {
-                        utils.WriteToLogArea("int syntax error at line " + (line + 1), true);
-                        syntaxError = true;
-                        break;
-                    }
-                    else
-                    {
-                        i += 3;
-                    }
-                }
-
                 //string
-                if (tokens[i] == lexer.Tokens.String)
+                if (tokens[i] == lexer.Tokens.STRING)
                 {
-                    if (tokens[i] != lexer.Tokens.String || tokens[i + 1] != lexer.Tokens.Equal || tokens[i + 2] != lexer.Tokens.Semicolon)
+                    if (tokens[i] != lexer.Tokens.STRING || tokens[i + 1] != lexer.Tokens.EQ || tokens[i + 2] != lexer.Tokens.SEMICOLON)
                     {
                         utils.WriteToLogArea("string syntax error at line " + (line + 1), true);
                         syntaxError = true;
@@ -119,15 +104,15 @@ namespace GSCoder.Backend
 
             for (int i = 0; i < tokens.Count; i++)
             {
-                if (tokens[i] == lexer.Tokens.NewLine)
+                if (tokens[i] == lexer.Tokens.NEWLINE)
                 {
                     line++;
                 }
-                else if (tokens[i] == lexer.Tokens.LeftBrace)
+                else if (tokens[i] == lexer.Tokens.LBRACE)
                 {
                     braceCount++;
                 }
-                else if (tokens[i] == lexer.Tokens.RightBrace)
+                else if (tokens[i] == lexer.Tokens.RBRACE)
                 {
                     if (--braceCount < 0)
                     {
@@ -136,11 +121,11 @@ namespace GSCoder.Backend
                         break;
                     }
                 }
-                else if (tokens[i] == lexer.Tokens.LeftParenthesis)
+                else if (tokens[i] == lexer.Tokens.LPAREN)
                 {
                     parenCount++;
                 }
-                else if (tokens[i] == lexer.Tokens.RightParenthesis)
+                else if (tokens[i] == lexer.Tokens.RPAREN)
                 {
                     if (--parenCount < 0)
                     {
@@ -149,17 +134,17 @@ namespace GSCoder.Backend
                         break;
                     }
                 }
-                else if (braceCount == 0 && parenCount == 0 && tokens[i] == lexer.Tokens.Unknown && i < tokens.Count - 1 && tokens[i+1] == lexer.Tokens.LeftParenthesis)
+                else if (braceCount == 0 && parenCount == 0 && tokens[i] == lexer.Tokens.NAME && i < tokens.Count - 1 && tokens[i+1] == lexer.Tokens.LPAREN)
                 {
                     int j = i + 2;
                     parenCount = 1;
                     while (j < tokens.Count)
                     {
-                        if (tokens[j] == lexer.Tokens.LeftParenthesis)
+                        if (tokens[j] == lexer.Tokens.LPAREN)
                         {
                             parenCount++;
                         }
-                        else if (tokens[j] == lexer.Tokens.RightParenthesis)
+                        else if (tokens[j] == lexer.Tokens.RPAREN)
                         {
                             if (--parenCount == 0)
                             {
@@ -196,15 +181,15 @@ namespace GSCoder.Backend
             //check the wait syntax
             for (int i = 0; i < tokens.Count; i++)
             {
-                if (tokens[i] == lexer.Tokens.NewLine)
+                if (tokens[i] == lexer.Tokens.NEWLINE)
                 {
                     line++;
                 }
 
                 //wait
-                if (tokens[i] == lexer.Tokens.Wait)
+                if (tokens[i] == lexer.Tokens.WAIT)
                 {
-                    if (tokens[i] != lexer.Tokens.Wait || tokens[i + 1] != lexer.Tokens.IntegerLiteral || tokens[i + 2] != lexer.Tokens.Semicolon)
+                    if (tokens[i] != lexer.Tokens.WAIT || tokens[i + 1] != lexer.Tokens.INT || tokens[i + 2] != lexer.Tokens.SEMICOLON)
                     {
                         utils.WriteToLogArea("Syntax error at line " + (line + 1), true);
                         syntaxError = true;
@@ -233,14 +218,17 @@ namespace GSCoder.Backend
             include2.Value = "maps\\mp\\gametypes\\_rank";
             root.Children.Add(include2);
 
+            //Init function
             ASTNode initFunction = new ASTNode(NodeType.FunctionDeclaration);
             initFunction.Value = "init";
             root.Children.Add(initFunction);
 
             ASTNode initBlock = new ASTNode(NodeType.Block);
             initFunction.Children.Add(initBlock);
+            //end init function
 
-            ASTNode thread = new ASTNode(NodeType.Thread);
+            ASTNode thread = new ASTNode(NodeType.FunctionCall);
+            thread.Value = "onplayerconnect";
             initBlock.Children.Add(thread);
 
             ASTNode threadFunction = new ASTNode(NodeType.FunctionCall);
@@ -310,6 +298,45 @@ namespace GSCoder.Backend
             iprintlnboldArgument.Value = "^2My First Function!";
             iprintlnbold.AddArgument(iprintlnboldArgument);
             myFunctionBlock.Children.Add(iprintlnbold);
+
+            return root;
+        }
+
+         //function to creates AST from the tokens
+        public static ASTNode CreateAST(List<string> code)
+        {
+            ASTNode root = new ASTNode(NodeType.Program);
+
+            //detect the includes
+            for (int i = 0; i < code.Count; i++)
+            {
+                //get the type of the token
+                lexer.Tokens tokenType = lexer.GetToken(code[i]);
+
+                //include
+                if (tokenType == lexer.Tokens.INCLUDE)
+                {
+                    string includePath = "";
+                    ASTNode include = new ASTNode(NodeType.IncludeDirective);
+
+                    //get the include path
+                    for (int j = i + 1; j < code.Count; j++)
+                    {
+                        if (lexer.GetToken(code[j]) == lexer.Tokens.SEMICOLON)
+                        {
+                            i = j;
+                            break;
+                        }
+                        else
+                        {
+                            includePath += code[j];
+                        }
+                    }
+
+                    include.Value = includePath;
+                    root.Children.Add(include);
+                }
+            }
 
             return root;
         }

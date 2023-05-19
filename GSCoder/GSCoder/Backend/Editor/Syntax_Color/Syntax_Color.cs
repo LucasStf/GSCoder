@@ -5,30 +5,15 @@ namespace GSCoder.Backend
 {
     class Syntax_Color
     {
-        public static Color GetSyntaxColor(lexer.TokenTypes tokenType)
+        public static Color GetSyntaxColor(lexer.Tokens token)
         {
-            switch (tokenType)
+            switch (token)
             {
-                case lexer.TokenTypes.Comment:
-                    return Colors.Green;
-
-                case lexer.TokenTypes.Keyword:
+                case lexer.Tokens.KEYWORD:
                     return Colors.RoyalBlue;
 
-                case lexer.TokenTypes.Operator:
-                    return Colors.DarkGreen;
-
-                case lexer.TokenTypes.String:
+                case lexer.Tokens.OPERATOR:
                     return Colors.DarkOrange;
-
-                case lexer.TokenTypes.Integer:
-                    return Colors.Gray;
-
-                case lexer.TokenTypes.Float:
-                    return Colors.Gray;
-
-                case lexer.TokenTypes.Unknown:
-                    return Colors.White;
 
                 default:
                     return Colors.White;
@@ -38,7 +23,7 @@ namespace GSCoder.Backend
         public static void SetColorCurrentText(string text, RichTextArea textArea, int startIndex)
         {
             var token = Color_Lexer.GetTokenTypesSyntaxColor(text);
-            if(token != lexer.TokenTypes.Unknown)
+            if(token != lexer.Tokens.NAME)
             {
                 //set the selection on the current text
                 textArea.Selection = new Range<int>(startIndex, startIndex + text.Length -1);
@@ -63,17 +48,17 @@ namespace GSCoder.Backend
                 var tokenType = Color_Lexer.GetTokenTypesSyntaxColor(token);
 
                 //if token is a string
-                if (tokenType == lexer.TokenTypes.String)
+                if (tokenType == lexer.Tokens.STRING)
                 {
                     isValid = true;
                 }
                 //if token is an operator
-                if(tokenType == lexer.TokenTypes.Operator)
+                if(tokenType == lexer.Tokens.OPERATOR)
                 {
                     isValid = true;
                 }
                 //if the token is a keyword
-                if (tokenType == lexer.TokenTypes.Keyword)
+                if (tokenType == lexer.Tokens.KEYWORD)
                 {
                     isValid = true;
                 }
