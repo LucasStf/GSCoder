@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace GSCoder.Backend
@@ -18,6 +19,11 @@ namespace GSCoder.Backend
         {
             Children.Add(argument);
         }
+
+        public static implicit operator List<object>(ASTNode v)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public enum NodeType
@@ -30,9 +36,15 @@ namespace GSCoder.Backend
         FunctionCall,
         ForLoop,
         WaitTill,
+        For,
+        While,
+        If,
+        Else,
+        ElseIf,
         EndOn,
         String,
         Integer,
         Identifier,
+        Unknown
     }
 }

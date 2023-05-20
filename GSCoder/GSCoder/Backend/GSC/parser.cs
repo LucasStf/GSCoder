@@ -302,43 +302,112 @@ namespace GSCoder.Backend
             return root;
         }
 
-         //function to creates AST from the tokens
+        public static void PrintAST(ASTNode node, string indent = "")
+        {
+            Console.WriteLine(indent + "Node type: " + node.Type + " - " + node.Value);
+
+            foreach (ASTNode child in node.Children)
+            {
+                Console.WriteLine(indent + "  Children of " + node.Type + ":");
+
+                PrintAST(child, indent + "    ");
+            }
+        }
+
+        //function to creates AST from the tokens
         public static ASTNode CreateAST(List<string> code)
         {
             ASTNode root = new ASTNode(NodeType.Program);
+            int codeLength = code.Count;
 
-            //detect the includes
-            for (int i = 0; i < code.Count; i++)
+            for (int i = 0; i < codeLength; i++)
             {
-                //get the type of the token
-                lexer.Tokens tokenType = lexer.GetToken(code[i]);
-
-                //include
-                if (tokenType == lexer.Tokens.INCLUDE)
+                switch (lexer.GetToken(code[i]))
                 {
-                    string includePath = "";
-                    ASTNode include = new ASTNode(NodeType.IncludeDirective);
+                    case lexer.Tokens.SHARP when code[i + 1] == "include":
+                        //include
+                        string includePath = "";
+                        ASTNode include = new ASTNode(NodeType.IncludeDirective);
 
-                    //get the include path
-                    for (int j = i + 1; j < code.Count; j++)
-                    {
-                        if (lexer.GetToken(code[j]) == lexer.Tokens.SEMICOLON)
+                        //get the include path
+                        for (int j = i + 1; j < code.Count; j++)
                         {
-                            i = j;
-                            break;
+                            if (lexer.GetToken(code[j]) == lexer.Tokens.SEMICOLON)
+                            {
+                                i = j;
+                                break;
+                            }
+                            else
+                            {
+                                includePath += code[j];
+                            }
                         }
-                        else
-                        {
-                            includePath += code[j];
-                        }
-                    }
+                        include.Value = includePath;
+                        root.Children.Add(include);
+                    break;
+                    case lexer.Tokens.NAME when code[i + 1] == "(" && code[i + 2] == ")" && code[i + 3] != ";":
+                        ASTNode function = new ASTNode(NodeType.FunctionDeclaration);
+                    function.Value = code[i];
+                    root.Children.Add(function);
 
-                    include.Value = includePath;
-                    root.Children.Add(include);
+                    ASTNode block = GenerateFunctionBlock(code, i + 1);
+                    function.Children.Add(block);
+                    break;
                 }
             }
 
             return root;
+        }
+
+        //function to generate the block of the function
+        public static ASTNode GenerateFunctionBlock(List<string> code, int index)
+        {
+            ASTNode block = new ASTNode(NodeType.Block);
+
+            // get the function block
+            for (int j = index + 1; j < code.Count; j++)
+            {
+                if (lexer.GetToken(code[j]) == lexer.Tokens.LBRACE)
+                {
+                    int braceCount = 1;
+                    for (int k = j + 1; k < code.Count; k++)
+                    {
+                        if (lexer.GetToken(code[k]) == lexer.Tokens.LBRACE)
+                        {
+                            braceCount++;
+                        }
+                        else if (lexer.GetToken(code[k]) == lexer.Tokens.RBRACE)
+                        {
+                            braceCount--;
+                            if (braceCount == 0)
+                            {
+                                index = k;
+                                break;
+                            }
+                        }
+
+                        var tokenType = lexer.GetToken(code[k]);
+                        var nodeType = NodeType.Unknown;
+
+                        // Check if the token can have a block
+                        if (tokenType == lexer.Tokens.FOR)
+                        {
+                            nodeType = NodeType.For;
+                            var forBlock = GenerateFunctionBlock(code, k + 1);
+                            var forNode = new ASTNode(nodeType) { Value = nodeType.ToString() };
+                            forNode.Children.Add(forBlock);
+                            block.Children.Add(forNode);
+                        }
+                        else
+                        {
+                            block.Children.Add(new ASTNode(nodeType) { Value = lexer.GetToken(code[k]).ToString() });
+                        }
+                    }
+                    break;
+                }
+            }
+
+            return block;
         }
 
         public static uint GetOpcodeValue(opcodes.opcode opcode)

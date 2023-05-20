@@ -42,30 +42,7 @@ namespace GSCoder.Backend
             //var ast = parser.CreateAST_Mock(TokensList);
             var ast = parser.CreateAST(ParsedCode);
 
-            //print the ast
-            foreach (ASTNode node in ast.Children)
-            {
-                Console.WriteLine("Node type : " + node.Type + " - " + node.Value);
-                foreach (ASTNode child in node.Children)
-                {
-                    Console.WriteLine("Children of " + node.Type + " : " + child.Type);
-                }
-            }
-
-            //print the ast_mock
-            /*foreach (ASTNode node in ast.Children)
-            {
-                Console.WriteLine("Node type : " + node.Type + " - " + node.Value);
-                foreach (ASTNode child in node.Children)
-                {
-                    Console.WriteLine("Children of " + node.Type + " : " + child.Type);
-                    //print the children of the children
-                    foreach (ASTNode child2 in child.Children)
-                    {
-                        Console.WriteLine("Children of " + child.Type + " : " + child2.Type + " - " + child2.Value);
-                    }
-                }
-            }*/
+            parser.PrintAST(ast);
 
             /*outpout = parser.GenerateBytecodeFromAST(ast);
 
