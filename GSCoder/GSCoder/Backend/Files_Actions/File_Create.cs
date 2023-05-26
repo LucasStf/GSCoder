@@ -16,7 +16,9 @@ namespace GSCoder.Backend
                 Content = CreateEditor.Create(fileContent),
             };
 
-            ((TabControl)rightPanel.Content).Pages.Add(tabPage);
+            //get the tabcontrol with the id "tabControl"
+            var tabControl = (TabControl)rightPanel.FindChild("tabControl");
+            tabControl.Pages.Add(tabPage);
         }
 
         public static void AddItemToTreeGrid(MainForm form, string file_name, string file_extension, TreeGridItemCollection treeGridItemCollection)

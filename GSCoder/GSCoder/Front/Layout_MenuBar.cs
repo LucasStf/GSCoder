@@ -66,6 +66,9 @@ namespace GSCoder.Front
             var draculaTheme = new Command { MenuText = "Dracula Theme" };
             //draculaTheme.Executed += (sender, e) => theme.SetDraculaTheme();
 
+            var ModMenuPreview = new Command { MenuText = "Mod Menu Preview" };
+            ModMenuPreview.Executed += (sender, e) => Backend.Project.project.ShowMenuPreview();
+
             var quitCommand = new Command { MenuText = "Quit", Shortcut = Application.Instance.CommonModifier | Keys.Q };
             quitCommand.Executed += (sender, e) => Application.Instance.Quit();
 
@@ -81,7 +84,7 @@ namespace GSCoder.Front
 					// File submenu
 					new SubMenuItem { Text = "&Project", Items = { open_project, create_project, save_project } },
                     new SubMenuItem { Text = "&File", Items = { save_file, rename_file, create_file, remove_file, check_syntax, compile_file } },
-                    new SubMenuItem { Text = "&Settings", Items = { whiteTheme, draculaTheme } },
+                    new SubMenuItem { Text = "&Settings", Items = { whiteTheme, draculaTheme, ModMenuPreview } },
                     new SubMenuItem { Text = "&About", Items = { aboutCommand } }
                 },
             };

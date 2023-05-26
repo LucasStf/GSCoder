@@ -10,12 +10,12 @@ namespace GSCoder
         public static Panel leftPanel;
         public static TextArea logArea = new TextArea();
         public static TreeGridItemCollection treeGridItemCollection = new TreeGridItemCollection();
+        public static Drawable drawable = new Drawable();
 
         public MainForm()
         {
             this.WindowStyle = WindowStyle.Default;
 
-            BackgroundColor = project_infos.main_color;
             Backend.Project.project.checkup();
 
             Title = "GSCoder";
@@ -23,8 +23,6 @@ namespace GSCoder
 
             leftPanel = Layout_left.CreateLeftPanel(this);
             rightPanel = Layout_right.CreateRightPanel();
-
-            leftPanel.BackgroundColor = project_infos.main_color;
 
             var splitter = new Splitter
             {
@@ -36,8 +34,6 @@ namespace GSCoder
             };
 
             var logPanel = CreateLogPanel.CreateLogArea();
-            //logArea.BackgroundColor = project_infos.log_background_color;
-            //logArea.TextColor = project_infos.foreground_color;
 
             var mainSplitter = new Splitter
             {

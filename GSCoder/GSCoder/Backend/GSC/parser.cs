@@ -420,6 +420,8 @@ namespace GSCoder.Backend
         {
             List<byte> bytecode = new List<byte>();
 
+            var Header = new byte[] { 0x80, 0x47, 0x53, 0x43, 0x0D, 0x0A, 0x00, 0x06 };
+
             foreach (ASTNode childNode in ast.Children)
             {
                 switch (childNode.Type)
