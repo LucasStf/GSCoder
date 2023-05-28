@@ -28,7 +28,10 @@ namespace GSCoder.Backend
             //get the file name without the extension
             treeGridItemCollection.Add(new TreeGridItem { Values = new object[] { file_name, file_extension } });
 
-            ((TreeGridView)leftPanel.Content).DataStore = treeGridItemCollection;
+            //get the treegrid with the id "treegrid"
+            var treegrid = (TreeGridView)leftPanel.FindChild("treeGridView");
+
+            treegrid.DataStore = treeGridItemCollection;
         }
 
         public static void CreateFile(string project_path, string file_name)

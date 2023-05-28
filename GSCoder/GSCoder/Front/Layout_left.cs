@@ -25,6 +25,8 @@ namespace GSCoder.Front
                 MinWidth = 100
             });
 
+            var drawable = MainForm.drawable;
+
             //create an event when the user click an item in the treegridview
             treeGridView.MouseUp += (sender, e) =>
             {
@@ -79,7 +81,14 @@ namespace GSCoder.Front
             var panel = new Panel
             {
                 ID = "panel_left",
-                Content = treeGridView,
+                Content = new StackLayout
+                {
+                    Items =
+                    {
+                        treeGridView,
+                        Menu_preview.Preview(),
+                    }
+                }
             };
 
             return panel;

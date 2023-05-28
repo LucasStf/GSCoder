@@ -2,6 +2,7 @@
 using Eto.Drawing;
 using Eto.Forms;
 using GSCoder.Front;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -126,8 +127,7 @@ namespace GSCoder.Backend.Project
 
             //find the InitialisingMenu function
             var initialisingMenu = gsc_utils.GetModMenuDesign(code);
-
-            MessageBox.Show(initialisingMenu);
+            var TokenDesign = parser.GetParsedCode(initialisingMenu);
 
             //change the drawable content
             //draw the menu in the drawable
@@ -137,15 +137,58 @@ namespace GSCoder.Backend.Project
                 e.Graphics.Clear(Colors.DarkGray);
 
                 var graphics = e.Graphics;
+                bool material = false;
+
+                for(int i = 0; i < TokenDesign.Count; i++)
+                {
+                    //Console.WriteLine(TokenDesign[i]);
+
+                    if(TokenDesign[i] == "Background" || TokenDesign[i] == "Scrollbar")
+                    {
+                        material = true;
+                    }
+                    else if(TokenDesign[i] == "selfSetMaterial")
+                    {
+                        //Background && Scrollbar
+                        var x = TokenDesign[i + 10];
+                        var y = TokenDesign[i + 12];
+                        var width = TokenDesign[i + 14];
+                        var height = TokenDesign[i + 16];
+                        var r = TokenDesign[i + 19];
+                        var g = TokenDesign[i + 21];
+                        var b = TokenDesign[i + 23];
+
+                        Console.WriteLine("x: " + x + " y: " + y + " width: " + width + " height: " + height + " color: " + r + ", " + g + ", " + b);
+
+                        Color color = Color.FromArgb(int.Parse(r), int.Parse(g), int.Parse(b), 255);
+
+                        var startX = int.Parse(x);
+                        var startY = int.Parse(y);
+                        var endX = startX + int.Parse(width);
+                        var endY = startY + int.Parse(height);
+
+                        if(material)
+                        {
+                            graphics.FillRectangle(new SolidBrush(color), startX, startY, endX, endY);
+                            material = false;
+                        }
+                        else
+                        {
+                            graphics.DrawLine(Pens.Green, startX, startY, endX, endY);
+                            material = false;
+                        }
+                    }
+                }
+                //show the changes
+                MainForm.drawable.Invalidate();
+                //x y width height color : 120, 0, 240, 1000, (1,1,1)
+
                 /*graphics.FillRectangle(Brushes.White, 120, 0, 240, 1000); // Background
                 graphics.FillRectangle(Brushes.Green, 120, 60, 240, 15); // Scrollbar
                 graphics.DrawLine(Pens.Green, 120, 50, 360, 50); // BorderMiddle
                 graphics.DrawLine(Pens.Green, 119, 0, 119, 1000); // BorderLeft
                 graphics.DrawLine(Pens.Green, 360, 0, 360, 1000); // BorderRight*/
             };
-            
-            //show the changes
-            MainForm.drawable.Invalidate();
         }
 
         public static void DrawRectangleInDrawable(Drawable drawable, int x, int y, int width, int height, Color color)
@@ -154,6 +197,15 @@ namespace GSCoder.Backend.Project
             {
                 var graphics = e.Graphics;
                 graphics.FillRectangle(new SolidBrush(color), x, y, width, height);
+            };
+        }
+
+        public static void DrawLineInDrawable(Drawable drawable, int x1, int y1, int x2, int y2, Color color)
+        {
+            drawable.Paint += (sender, e) =>
+            {
+                var graphics = e.Graphics;
+                graphics.DrawLine(new Pen(color), x1, y1, x2, y2);
             };
         }
     }
