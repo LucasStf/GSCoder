@@ -79,7 +79,7 @@ namespace GSCoder.Backend
 
                 #endregion
 
-                #region Syntax Color
+                #region Syntax Color && AutoComplete
             
                 if (textArea.Text.Length > 0)
                 {
@@ -89,6 +89,7 @@ namespace GSCoder.Backend
                     string currentText = textArea.Text.Substring(startIndex, textArea.CaretIndex - startIndex);
 
                     Syntax_Color.SetColorCurrentText(currentText, textArea, startIndex);
+                    var AutoCompleteWords = lexer.GetStringAutoCompletion(currentText);
                 }
 
                 #endregion

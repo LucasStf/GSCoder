@@ -255,5 +255,19 @@ namespace GSCoder.Backend
             }
             return current_token;
         }
+
+        public static List<string> GetStringAutoCompletion(string text)
+        {
+            //create a list of string
+            var tokens = new List<string>();
+            foreach (KeyValuePair<Tokens, string> pair in TokenToString)
+            {
+                if (pair.Value.Contains(text))
+                {
+                    tokens.Add(pair.Value);
+                }
+            }
+            return tokens;
+        }
     }
 }

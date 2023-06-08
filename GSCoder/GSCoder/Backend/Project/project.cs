@@ -190,23 +190,5 @@ namespace GSCoder.Backend.Project
                 graphics.DrawLine(Pens.Green, 360, 0, 360, 1000); // BorderRight*/
             };
         }
-
-        public static void DrawRectangleInDrawable(Drawable drawable, int x, int y, int width, int height, Color color)
-        {
-            drawable.Paint += (sender, e) =>
-            {
-                var graphics = e.Graphics;
-                graphics.FillRectangle(new SolidBrush(color), x, y, width, height);
-            };
-        }
-
-        public static void DrawLineInDrawable(Drawable drawable, int x1, int y1, int x2, int y2, Color color)
-        {
-            drawable.Paint += (sender, e) =>
-            {
-                var graphics = e.Graphics;
-                graphics.DrawLine(new Pen(color), x1, y1, x2, y2);
-            };
-        }
     }
 }

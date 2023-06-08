@@ -19,7 +19,7 @@ namespace GSCoder.Front
                 Backend.Project.project.ShowMenuPreview();
             };
 
-            MainForm.drawable.Width = 400;
+            MainForm.drawable.Width = 300;
             MainForm.drawable.Height = 500;
 
             panel.Content = new StackLayout
