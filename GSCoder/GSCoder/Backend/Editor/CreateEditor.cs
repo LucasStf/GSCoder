@@ -57,6 +57,14 @@ namespace GSCoder.Backend
                 Content = tableLayout
             };
 
+            var AutoCompleteWindow = new Form
+            {
+                Title = "AutoComplete",
+                Width = 200,
+                Height = 200,
+                WindowStyle = WindowStyle.None,
+            };
+
             //Initialisé les lignes avant l'évenement TextChanged
             string lineNumbers = Lines.GetLinesNumber(textArea.Text);
             label.Text = lineNumbers;
@@ -90,6 +98,33 @@ namespace GSCoder.Backend
 
                     Syntax_Color.SetColorCurrentText(currentText, textArea, startIndex);
                     var AutoCompleteWords = lexer.GetStringAutoCompletion(currentText);
+
+                    //show the list of words in an windows that dont have a focus
+                    if (AutoCompleteWords.Count > 0)
+                    {
+                        
+                        AutoCompleteWindow.Content = new ListBox
+                        {
+                            DataStore = AutoCompleteWords,
+                            Width = 150,
+                            Height = 100,
+                        };
+
+                        AutoCompleteWindow.Show();
+
+                        //get the start position of the textarea
+                        var windowPosition = textArea.PointToScreen(textArea.Location);
+
+                        //set the position of the window
+                        AutoCompleteWindow.Location = new Point((int)windowPosition.X, (int)windowPosition.Y + (textArea.CaretIndex + 50));
+
+                        //lost the focus of the window
+                        AutoCompleteWindow.CanFocus = false;
+                    }
+                    else
+                    {
+                        AutoCompleteWindow.Close();
+                    }
                 }
 
                 #endregion
